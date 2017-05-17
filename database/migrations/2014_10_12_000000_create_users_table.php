@@ -18,8 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            // Privileeg, ehk kui kõva kasutaja on. 1-tavakasutaja ... 10-admingod
-            $table->integer('privilege');
             $table->rememberToken();
             $table->timestamps();
         });
