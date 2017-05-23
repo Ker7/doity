@@ -25,6 +25,9 @@ Route::get('/profile', 'ProfileController@index');
 
 Route::get('/test', 'FieldController@testStore');
 
+Route::get('/ajax-get-userfield-habits', 'UserFieldsController@ajaxGetFieldHabits');
+Route::get('/test', 'testController@index');
+
 // New approach!
 Route::resource('field', 'FieldController');
 Route::resource('userfield', 'UserFieldsController');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserField;
+use App\FHabit;
 use Illuminate\Http\Request;
 
 class UserFieldsController extends Controller
@@ -12,10 +13,30 @@ class UserFieldsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //Küsitakse userfield'i ajaxiga
         return "UFCont@index!";
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ajaxGetFieldHabits(Request $request)
+    {
+        // Ajax request gives the requested UserField ID
+        $uf = $request->input('userfield_id');
+        
+        // Now we gonna find all this UserField's habits
+        $habits = FHabit::where('userfield_id', $uf)->get();
+        
+        $names = "";
+        foreach ($habits as $habit) {
+            $names += $habit->getHabit->name;
+        }
+        
+        //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii
+        return $habits->toJson();
     }
 
     /**

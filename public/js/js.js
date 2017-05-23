@@ -45,20 +45,33 @@ $( "#fieldCircle" ).click(function(evt){
     //        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     //    }
     //});
+
+    
     $.ajax({
         type: "GET",
-        url: "userfield",    //"./home", sama asi, ei muutnud midagi
+        url: "ajax-get-userfield-habits",    //"./home", sama asi, ei muutnud midagi
         //data: {selectedPhoneNumber:$('input#phoneNumber').val()},
         //headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: {userfield_id:    t3},
         success: function(adata) {
             //alert("Ajax SUCCESS?"+adata);
             //console.log(adata.toString());
-            console.log('ajax-userfield-success');
+            console.log('ajax-userfield-successa');
+                var obj = jQuery.parseJSON( adata );
+                
+                //$.each(json, function(adata,group) {
+                //            console.log('<a href="'+group.GROUP_ID+'">');
+                //    $.each(group.EVENTS, function(eventID,eventData) {
+                //            console.log('<p>'+eventData.SHORT_DESC+'</p>');
+                //     });
+                //});
+                
+                console.log( obj.length );
+                console.log( 'id:' + obj[0].id + ', comment' + obj[0].comment + ' getHabit?:' + obj[0].get_habit.name);
             $('#ajax-box').html(adata);
         },
         error: function() {
-            console.log('ajax-userfield-error');
+            console.log('ajax-userfield-errora');
             //alert("No habits found! :(");
         }
     });
@@ -70,6 +83,14 @@ $( "#fieldCircle" ).click(function(evt){
 });
 
 $(document).ready(function() {
+    
+    $.ajaxSetup({
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    
     var borderColor;
 
     $('#colorForField').ColorPicker({

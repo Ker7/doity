@@ -30,7 +30,7 @@ class UserFieldSeeder extends Seeder
                     'id' => $i,
                     'user_id' => $user_id,
                     'field_id' => $field_id,
-                    'active' => Rand(0,1),
+                    'active' => 1,
                     'clicked' => 1,
                     'public' => 1,
                     'created_at' => Carbon::now()
