@@ -1,6 +1,8 @@
 <?php
+//namespace Database\Seeds;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
 

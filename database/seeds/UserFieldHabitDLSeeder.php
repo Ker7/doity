@@ -14,7 +14,7 @@ class UserFieldHabitDLSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('dotilog')->delete();
+        DB::table('dotilogs')->delete();
 
         //use Faker\Factory as Factory;
         $faker = Factory::create();
@@ -22,7 +22,7 @@ class UserFieldHabitDLSeeder extends Seeder
         $i = 1;
         foreach (range(1, 21) as $fieldhabit){
             foreach (range(1,96) as $index) {
-                DB::table('dotilog')->insert([
+                DB::table('dotilogs')->insert([
                     'id' => $i,
                     'fieldhabit_id' => $fieldhabit,
                     

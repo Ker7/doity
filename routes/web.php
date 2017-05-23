@@ -17,4 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get  ('/home', 'HomeController@index')->name('home');
+Route::patch('/home', 'HomeController@postIndex' );
+
+Route::put('/profile', [ 'as' => 'profile.update', 'uses' => 'ProfileController@updateProfile'] );
+Route::get('/profile', 'ProfileController@index');
+
+// New approach!
+Route::resource('field', 'FieldController');
+Route::resource('userfield', 'UserFieldsController');
+Route::resource('logs', 'DotilogController');
+
+Route::patch('/home', 'HomeController@postIndex' );
