@@ -18,10 +18,10 @@ class CreateUserFieldsTable extends Migration
             $table->integer('user_id');
             $table->integer('field_id');
             
-            $table->boolean('clicked');     //clicked or not? For giggles...
+            $table->boolean('clicked')->default(0);     //clicked or not? For giggles...
 
-            $table->boolean('active');
-            $table->boolean('public');
+            $table->boolean('active')->default(1);
+            $table->boolean('public')->default(0);
             $table->timestamps();
         });
     }

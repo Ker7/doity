@@ -20,7 +20,7 @@ class CreateFieldsTable extends Migration
             $table->string('color');
             $table->boolean('verified')->default(0);    // Is it verified as a global field?
             $table->integer('author_user');             // Who created the field?
-            $table->boolean('clicked');     // @todo remove clicked or not? For giggles... TEST
+            $table->boolean('clicked')->default(0);     // @todo remove clicked or not? For giggles... TEST
             
             $table->timestamps();
         });

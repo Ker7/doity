@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Field;
+use App\UserField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
+
+use Illuminate\Support\Facades\Redirect;
 
 class FieldController extends Controller
 {
@@ -36,11 +40,44 @@ class FieldController extends Controller
      */
     public function store(Request $request)
     {
-        //$field = new Field;
-        //$field->name = 
+        $field = new Field;
+        $field->name = $request->name;
+        $field->color = $request->colorForField;
+        $field->author_user = Auth::user()->id;
+        $field->save();
+        
+        // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
+        
+        $userField = new UserField;
+        $userField->user_id = Auth::user()->id;
+        $userField->field_id = $field->id;
+        $userField->save();
+        
+        return redirect()->action('HomeController@index');
+        //return HomeController->index();
+        
         //return $request->all;
-        return "FCont@store!".$request->name.' and '.$request->colorForField
-            . 'UserID: '. Auth::user()->id;
+        //return "FCont@store!".$request->name.' and '.$request->colorForField
+        //    . 'UserID: '. Auth::user()->id;
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function testStore()
+    {
+        $field = new Field;
+        $field->name = 'test123';
+        $field->color = '#123acb';
+        //$field->
+        $field->save();
+        
+        
+        //return $request->all;
+        //return "FCont@store!".$request->name.' and '.$request->colorForField
+        //    . 'UserID: '. Auth::user()->id;
     }
 
     /**
