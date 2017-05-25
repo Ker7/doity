@@ -41,6 +41,8 @@
                 </div>-->
                     
                 <div class="panel-body">
+                
+                    <div style="width:50%">
 
                     {{-- With $userFields var from HomeController@index --}}
                     @include('doti-circle')
@@ -55,6 +57,9 @@
                     {{--    @include('doti-field-rows-unactives')
                     @endif --}}
                     
+                    </div>
+                        
+                    <div id="habits-block" style="display: inline-block;width:50%"></div>
                     
                 </div>
                 

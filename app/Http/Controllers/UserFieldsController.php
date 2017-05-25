@@ -28,11 +28,11 @@ class UserFieldsController extends Controller
         $uf = $request->input('userfield_id');
         
         // Now we gonna find all this UserField's habits
-        $habits = FHabit::where('userfield_id', $uf)->get();
+        $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
         
-        $names = "";
+        //$names = "";
         foreach ($habits as $habit) {
-            $names += $habit->getHabit->name;
+            $habit->getHabit->name;
         }
         
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii

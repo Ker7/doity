@@ -41,4 +41,9 @@ class FHabit extends Model
     {
         return $this->hasOne('App\Unit', 'id', 'unit_id');
     }
+    
+    public function getTags()
+    {
+        return $this->belongsToMany('App\Tag', 'id', 'unit_id');
+    }
 }

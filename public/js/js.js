@@ -35,7 +35,7 @@ $( "#fieldCircle" ).click(function(evt){
         $(".home-field-row:visible").each(function(){
             $(this).slideToggle();
         });
-        $("div").find("[data-row-fieldid='" + t3 + "']").slideToggle(200);
+        $("div").find("[data-row-fieldid='" + t3 + "']").slideToggle(20);
     }
 
     // Teeme veidi AJAX'it kah
@@ -49,25 +49,56 @@ $( "#fieldCircle" ).click(function(evt){
     
     $.ajax({
         type: "GET",
-        url: "ajax-get-userfield-habits",    //"./home", sama asi, ei muutnud midagi
-        //data: {selectedPhoneNumber:$('input#phoneNumber').val()},
-        //headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: "ajax-get-userfield-habits",
         data: {userfield_id:    t3},
         success: function(adata) {
-            //alert("Ajax SUCCESS?"+adata);
-            //console.log(adata.toString());
             console.log('ajax-userfield-successa');
-                var obj = jQuery.parseJSON( adata );
+            var obj = jQuery.parseJSON( adata );
+            
+            //$.each(json, function(adata,group) {
+            //            console.log('<a href="'+group.GROUP_ID+'">');
+            //    $.each(group.EVENTS, function(eventID,eventData) {
+            //            console.log('<p>'+eventData.SHORT_DESC+'</p>');
+            //     });
+            //});
+                $('#habits-block').empty();
                 
-                //$.each(json, function(adata,group) {
-                //            console.log('<a href="'+group.GROUP_ID+'">');
-                //    $.each(group.EVENTS, function(eventID,eventData) {
-                //            console.log('<p>'+eventData.SHORT_DESC+'</p>');
-                //     });
+            $.each(obj, function(index,habitObject){
+                //$.each(habitObject, function(key,val){
+                    //console.log("key : "+key+" ; value : "+val);
+                    
                 //});
                 
-                console.log( obj.length );
-                console.log( 'id:' + obj[0].id + ', comment' + obj[0].comment + ' getHabit?:' + obj[0].get_habit.name);
+                h_habit_id = habitObject.habit_id;
+                h_internal = habitObject.internal;
+                h_unit_name = habitObject.unit_name;
+                h_active = habitObject.active;
+                h_public = habitObject.public;
+                h_comment = habitObject.comment;
+                h_created_at = habitObject.created_at;
+                h_updated_at = habitObject.updated_at;
+                h_name = habitObject.get_habit.name;    //Habits table, which have names, not ID's
+                
+                console.log(h_unit_name+' name: '+h_name+', pub: '+h_public)
+                
+                
+                //$('#habits-block').append(
+                //    $(document.createElement('p')).text(
+                //        ' Habit Name: '+h_name+
+                //        ' Unit of Measure: '+h_unit_name+
+                //        ' IsPublic: '+h_public ).after('<a href="#">Open</a>')
+                //);
+                $('#habits-block').html(
+                    '<h3>Habit Name: '+h_name+
+                    '</h3></ br><p>Unit of Measure: '+h_unit_name+
+                    ' Is Public: '+h_public +'</p>'+
+                    '<a style="display: inline-block" href="#">Open</a>'
+                );
+            
+            });
+            
+            //console.log( obj.length );
+            //console.log( 'id:' + obj[0].id + ', comment' + obj[0].comment + ' getHabit?:' + obj[0].get_habit.name);
             $('#ajax-box').html(adata);
         },
         error: function() {

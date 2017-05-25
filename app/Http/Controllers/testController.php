@@ -10,12 +10,12 @@ class testController extends Controller
 {
     public function index()
     {
-        $this->iii(8);
+        //$this->iii(8);
         $this->iii(9);
-        $this->iii(10);
-        $this->iii(11);
-        $this->iii(12);
-        $this->iii(13);
+        //$this->iii(10);
+        //$this->iii(11);
+        //$this->iii(12);
+        //$this->iii(13);
         
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii
         return "UFCont@index! Count: " . count($habits);
