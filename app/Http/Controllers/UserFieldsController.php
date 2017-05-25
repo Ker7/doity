@@ -33,7 +33,7 @@ class UserFieldsController extends Controller
         //$names = "";
         foreach ($habits as $habit) {
             $habit->getHabit->name;
-            $habit['postURL'] = action('FHabitController@edit');
+            $habit['postURL'] = action('FHabitController@edit');    // @todo Siin tekib UrlGenerator.php line 337, kui tahan edit URL ajax'iga kaasa saata...
         }
         
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii
