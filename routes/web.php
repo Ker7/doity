@@ -26,6 +26,9 @@ Route::get('/profile', 'ProfileController@index');
 Route::get('/test', 'FieldController@testStore');
 
 Route::get('/ajax-get-userfield-habits', 'UserFieldsController@ajaxGetFieldHabits');
+//Route::get('/ajax-get-userfield-habits', [ 'as' => 'ajax-get-userfield-habits', 'uses' => 'UserFieldsController@ajaxGetFieldHabits'] );
+//Route::get('/ajax', 'UserFieldsController@ajaxGetFieldHabits' )->name('ajax');
+//Route::get('/ajax', 'UserFieldsController@index' )->name('ajax');
 Route::get('/test', 'testController@index');
 
 // New approach!

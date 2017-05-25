@@ -25,7 +25,7 @@
                             {!! Form::label('color', 'Colour') !!}
                             <input class="form-control" type="color" id="colorForField" name="colorForField" style="width: 60px;"/>
                         </div>
-                        <button class="btn btn-success" type="submit">Add the Car!</button>
+                        <button class="btn btn-success" type="submit">Add!</button>
                             
                         {!! Form::close() !!}
                       

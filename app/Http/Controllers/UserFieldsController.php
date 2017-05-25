@@ -33,6 +33,7 @@ class UserFieldsController extends Controller
         //$names = "";
         foreach ($habits as $habit) {
             $habit->getHabit->name;
+            $habit['postURL'] = action('FHabitController@edit');
         }
         
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii

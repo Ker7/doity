@@ -54,20 +54,10 @@ $( "#fieldCircle" ).click(function(evt){
         success: function(adata) {
             console.log('ajax-userfield-successa');
             var obj = jQuery.parseJSON( adata );
-            
-            //$.each(json, function(adata,group) {
-            //            console.log('<a href="'+group.GROUP_ID+'">');
-            //    $.each(group.EVENTS, function(eventID,eventData) {
-            //            console.log('<p>'+eventData.SHORT_DESC+'</p>');
-            //     });
-            //});
+
                 $('#habits-block').empty();
                 
             $.each(obj, function(index,habitObject){
-                //$.each(habitObject, function(key,val){
-                    //console.log("key : "+key+" ; value : "+val);
-                    
-                //});
                 
                 h_habit_id = habitObject.habit_id;
                 h_internal = habitObject.internal;
@@ -79,38 +69,31 @@ $( "#fieldCircle" ).click(function(evt){
                 h_updated_at = habitObject.updated_at;
                 h_name = habitObject.get_habit.name;    //Habits table, which have names, not ID's
                 
+                h_tags = habitObject.get_tags;
+                h_tags_string = h_tags
+                
                 console.log(h_unit_name+' name: '+h_name+', pub: '+h_public)
                 
-                
-                //$('#habits-block').append(
-                //    $(document.createElement('p')).text(
-                //        ' Habit Name: '+h_name+
-                //        ' Unit of Measure: '+h_unit_name+
-                //        ' IsPublic: '+h_public ).after('<a href="#">Open</a>')
-                //);
                 $('#habits-block').html(
-                    '<h3>Habit Name: '+h_name+
-                    '</h3></ br><p>Unit of Measure: '+h_unit_name+
-                    ' Is Public: '+h_public +'</p>'+
-                    '<a style="display: inline-block" href="#">Open</a>'
+                    '<div style="background-color: #ddd; overflow: auto;" >'+
+                    '<h3> :: '+habitObject.get_habit.name+
+                    '</h3></ br> <p style="display: inline-block; float: left;">'+
+                    'Unit of Measure: '+habitObject.unit_name+
+                    ' Is Public: '+habitObject.public +' </p>'+
+                    '<a style="display: inline-block; float: left;" href="#">-open-</a>'+
+                    '</div>'
                 );
             
             });
-            
-            //console.log( obj.length );
-            //console.log( 'id:' + obj[0].id + ', comment' + obj[0].comment + ' getHabit?:' + obj[0].get_habit.name);
+
             $('#ajax-box').html(adata);
         },
         error: function() {
             console.log('ajax-userfield-errora');
-            //alert("No habits found! :(");
         }
     });
     return false;  // miks seda?
-    
-    
-    //console.log(myChart.data.datasets[firstPoint._datasetIndex].data['labels'].toSource());
-    //alert(firstPoint._datasetIndex + "/" + firstPoint._index);
+
 });
 
 $(document).ready(function() {
