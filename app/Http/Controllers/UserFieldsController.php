@@ -24,6 +24,8 @@ class UserFieldsController extends Controller
      */
     public function ajaxGetFieldHabits(Request $request)
     {
+        
+        echo "123".$request->input('form_name');
         // Ajax request gives the requested UserField ID
         $uf = $request->input('userfield_id');
         
@@ -33,11 +35,15 @@ class UserFieldsController extends Controller
         //$names = "";
         foreach ($habits as $habit) {
             $habit->getHabit->name;
-            $habit['postURL'] = action('FHabitController@edit');    // @todo Siin tekib UrlGenerator.php line 337, kui tahan edit URL ajax'iga kaasa saata...
+            //$habit['postURL'] = action('FHabitController@edit');    // @todo Siin tekib UrlGenerator.php line 337, kui tahan edit URL ajax'iga kaasa saata...
+            $habit->uusVaartus = 'jouu';
         }
-        
+        $data = [
+            "habits" => $habits
+        ];
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii
-        return $habits->toJson();
+        //return $habits->toJson();
+        return view('ajax.habits', $data);
     }
 
     /**

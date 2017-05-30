@@ -51,6 +51,16 @@ class FieldsHabitSeeder extends Seeder
         $array_data = array();
         $array_data[8] = ['unit_id' => 1,   'unit_name' => ''];
         
+        $habitmap = [
+            8 => 10,
+            9 => 13,
+            10 => 7,
+            11 => 2,
+            12 => 3,
+            13 => 1,
+            14 => 8
+        ];
+        
         /* Enda kontole hakkan lisama test habiteid */
         foreach (range(8,14) as $userfield_id){
             DB::table('userfield_habit')->insert([
@@ -59,7 +69,7 @@ class FieldsHabitSeeder extends Seeder
                 'internal' => false, //
                 'userfield_id' => $userfield_id,
                 //'date' => $faker->dateTimeBetween('-3 month', 'now')->format('Y-m-d'),
-                'habit_id' => ($userfield_id-7),       //Hardcoded "_log" named habit
+                'habit_id' => ($habitmap[$userfield_id]),       //Hardcoded "_log" named habit
                 
                 'unit_id' => 1,         // IF Field datalog, then unit is piece
                 'unit_name' => "%",     

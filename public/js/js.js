@@ -15,7 +15,21 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+function myCallAjax(urlmeth, urlparam, fdata, sfunc, efunc) {
+    $.ajax({
+        type: urlmeth,
+        url: urlparam,
+        data: fdata,
+        success: sfunc,
+        error: efunc
+    });
+}
 
+// HAbit show more click.
+$(document).on("click", ".habit-show-more", function(event){
+    event.preventDefault();
+    $(this).next('.habit-more').slideToggle();
+});
 
 $( "#fieldCircle" ).click(function(evt){
     var activePoints = myChart.getElementAtEvent(evt);
@@ -38,60 +52,27 @@ $( "#fieldCircle" ).click(function(evt){
         $("div").find("[data-row-fieldid='" + t3 + "']").slideToggle(20);
     }
 
-    // Teeme veidi AJAX'it kah
-    // Ajax tooken! Seda mingi hetk polnud vaja..? Error 500 korral pidi aitama.
-    //$.ajaxSetup({
-    //    headers: {
-    //        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    myCallAjax("GET", "ajax-get-userfield-habits", {userfield_id:    t3}, function(adata) {
+            console.log('ajax-userfield-success');
+            $('#habits-block').empty();
+            $('#habits-block').html(adata);
+        }, function() {
+            console.log('ajax-userfield-error');
+        });
+    
+    //$.ajax({
+    //    type: "GET",
+    //    url: "ajax-get-userfield-habits",
+    //    data: {userfield_id:    t3},
+    //    success: function(adata) {
+    //        console.log('ajax-userfield-success');
+    //        $('#habits-block').empty();
+    //        $('#habits-block').html(adata);
+    //    },
+    //    error: function() {
+    //        console.log('ajax-userfield-error');
     //    }
     //});
-
-    
-    $.ajax({
-        type: "GET",
-        url: "ajax-get-userfield-habits",
-        data: {userfield_id:    t3},
-        success: function(adata) {
-            console.log('ajax-userfield-successa');
-            var obj = jQuery.parseJSON( adata );
-
-                $('#habits-block').empty();
-                
-            $.each(obj, function(index,habitObject){
-                
-                h_habit_id = habitObject.habit_id;
-                h_internal = habitObject.internal;
-                h_unit_name = habitObject.unit_name;
-                h_active = habitObject.active;
-                h_public = habitObject.public;
-                h_comment = habitObject.comment;
-                h_created_at = habitObject.created_at;
-                h_updated_at = habitObject.updated_at;
-                h_name = habitObject.get_habit.name;    //Habits table, which have names, not ID's
-                
-                h_tags = habitObject.get_tags;
-                h_tags_string = h_tags
-                
-                console.log(h_unit_name+' name: '+h_name+', pub: '+h_public)
-                
-                $('#habits-block').html(
-                    '<div style="background-color: #ddd; overflow: auto;" >'+
-                    '<h3> :: '+habitObject.get_habit.name+
-                    '</h3></ br> <p style="display: inline-block; float: left;">'+
-                    'Unit of Measure: '+habitObject.unit_name+
-                    ' Is Public: '+habitObject.public +' </p>'+
-                    '<a style="display: inline-block; float: left;" href="#">-open-</a>'+
-                    '</div>'
-                );
-            
-            });
-
-            $('#ajax-box').html(adata);
-        },
-        error: function() {
-            console.log('ajax-userfield-errora');
-        }
-    });
     return false;  // miks seda?
 
 });
