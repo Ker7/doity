@@ -83,7 +83,7 @@
                 text: "Tere"
             },
             legend: {
-                display: true,
+                display: false,
                 fullWidth: false,
                 labels: {
                     boxWidth: 12
