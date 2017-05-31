@@ -1,6 +1,6 @@
 @foreach ($habits as $h)
     {{-- $h --}}
-  <div style="padding: 0px 10px; background-color: #ddd; overflow: auto;" >
+  <div style="padding: 0px 10px; background-color: #ddd; overflow: auto; margin-left: 20px;" >
     <h3>{{ $h->getHabit->name }}</h3>
     
     <p style="display: inline-block;">&nbsp; Unit: {{ $h->unit_name }}</p>
@@ -13,7 +13,7 @@
                 {{ Form::open() }}
                 {{ Form::hidden('form_name', 'fieldhabit_active') }}
                 {{ Form::hidden('fieldhabit_id', $h->id) }}
-                {{ method_field('GET') }}
+                {{-- method_field('GET') --}}
                     <input
                         type="checkbox"
                         name="fieldhabit"

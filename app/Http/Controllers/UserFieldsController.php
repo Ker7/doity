@@ -25,7 +25,7 @@ class UserFieldsController extends Controller
     public function ajaxGetFieldHabits(Request $request)
     {
         
-        echo "123".$request->input('form_name');
+        //echo "123".$request->input('form_name');
         // Ajax request gives the requested UserField ID
         $uf = $request->input('userfield_id');
         
