@@ -15,7 +15,7 @@ class Field extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'color', 'verified'
     ];
 
     public function markClicked() {

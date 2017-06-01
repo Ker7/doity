@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\User as User;
 use App\Field as Field;
 use App\UserField as UserField;
+use App\Habit as Habit;
 
 use Carbon\Carbon;
 
@@ -38,6 +39,10 @@ class HomeController extends Controller
      */ 
     public function index()
     {
+        $newField = new Field;
+        $newHabit = new Habit;
+        //$field->name = 'Jukimuki';
+        
         $data = array(
             'userFields' => UserField::where('user_id', Auth::id())
                                         ->where('active', true)         //Retrieve only active fields
@@ -47,7 +52,8 @@ class HomeController extends Controller
                                         ->get(),
             'openField'  => Input::get('field_id'),
             'specialWelcome' => $this->getWelcomeMessage(),
-            'field' => new Field
+            'newField' => $newField,
+            'newHabit' => $newHabit
             );
         
         // Ajax@home, here shouldn't do much

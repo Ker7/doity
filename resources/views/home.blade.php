@@ -10,29 +10,40 @@
                 <div class="panel-heading">
 
                 <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-btn fa-clone"></i>New Field</button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#fieldAddModal"><i class="fa fa-btn fa-clone"></i>New Field</button>
                 
                 <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
+                <div id="fieldAddModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
                 
-                        {!! Form::model($field, ['action' => 'FieldController@store']) !!}
+                      <div class="modal-header">
+                        <h3>Add a priority field</h3>
+                      </div>
+                        
+                      <div class="modal-body">
+                        {{-- @var $field from HomeController --}}
+                        {!! Form::model($newField, ['action' => 'FieldController@store']) !!}
                         <div class="form-group">
-                            {!! Form::label('name', 'Name') !!}
-                            {!! Form::text('name', '', ['class' => 'form-control']) !!}
+                          {!! Form::label('name', 'Name') !!}
+                          {!! Form::text('name', $newField->name, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::label('color', 'Colour') !!}
-                            <input class="form-control" type="color" id="colorForField" name="colorForField" style="width: 60px;"/>
+                          {!! Form::label('color', 'Colour') !!}
+                          <input class="form-control" type="color" id="colorForField" name="colorForField" style="width: 60px;"/>
                         </div>
-                        <button class="btn btn-success" type="submit">Add!</button>
+                      </div>
                             
+                      <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Add!</button>
                         {!! Form::close() !!}
+                      </div>
                       
-                    </div>
+                    </div>  
+                  </div>
                 </div>
                 
-                    <!--<a href="#" style="color:#fff;"><i class="fa fa-btn fa-clone"></i>New Field</a>-->
+                <!--<a href="#" style="color:#fff;"><i class="fa fa-btn fa-clone"></i>New Field</a>-->
                     {{ Auth::user()->name }}, {{ $specialWelcome }}
                 </div>
  

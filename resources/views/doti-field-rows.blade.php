@@ -10,8 +10,8 @@
         <tbody>
         <tr style="border-bottom: 1px solid rgb(198, 178, 204)">
             <td>Field</td>
-            <td>Active</td>
-            <td>Public</td>
+            <td>A</td>
+            <td>P</td>
             <td>Created</td>
             <td>Changed</td>
         </tr>
@@ -42,8 +42,40 @@
                     />
                 {{ Form::close() }}
             </td>
-            <td>{{ Carbon\Carbon::parse($userField->created_at)->format('jS F, Y') }}</td>
-            <td>{{ Carbon\Carbon::parse($userField->updated_at)->format('jS F, Y') }} :: </td>
+            <td>{{ Carbon\Carbon::parse($userField->created_at)->format('jS F') }}</td>
+            <td>{{ Carbon\Carbon::parse($userField->updated_at)->format('jS F') }} :: </td>
+                
+            <td>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i>+</button>
+                
+                <!-- Modal -->
+                <div id="#habitAddModal-{{$userField->id}}" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                
+                      <div class="modal-header">
+                        <h3>Add a Habit for {{ $userField->getField->name }}</h3>
+                      </div>
+                        
+                      <div class="modal-body">
+                      
+                        <div class="form-group">
+                          {!! Form::label('color', 'Colour') !!}
+                          <input class="form-control" type="color" id="colorForField" name="colorForField" style="width: 60px;"/>
+                        </div>
+                            
+                      </div>
+                            
+                      <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Add!</button>
+                        {!! Form::close() !!}
+                      </div>
+                      
+                    </div>  
+                  </div>
+                </div>
+                
+            </td>
         </tr>
         </tbody>
         </table>
