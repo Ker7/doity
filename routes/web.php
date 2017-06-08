@@ -26,6 +26,10 @@ Route::get('/profile', 'ProfileController@index');
 Route::get('/test', 'FieldController@testStore');
 
 Route::get('/ajax-get-userfield-habits', 'UserFieldsController@ajaxGetFieldHabits');
+
+Route::post('/fieldhabit', 'FHabitController@store');    // Habit add
+Route::get('/fieldhabit', 'FHabitController@edit');
+
 //Route::get('/ajax-get-userfield-habits', [ 'as' => 'ajax-get-userfield-habits', 'uses' => 'UserFieldsController@ajaxGetFieldHabits'] );
 //Route::get('/ajax', 'UserFieldsController@ajaxGetFieldHabits' )->name('ajax');
 //Route::get('/ajax', 'UserFieldsController@index' )->name('ajax');

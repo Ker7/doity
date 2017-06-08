@@ -46,4 +46,20 @@ class FHabit extends Model
     {
         return $this->belongsToMany('App\Tag', 'id', 'unit_id');
     }
+    
+    
+    /* Toggle whether this Field is shown to others or not.
+     * This is general default, which is used for Habits as well
+     */
+    public function toggleActive() {
+        //echo $this->id;
+        $this->active = $this->active ? false : true;
+        $this->save();
+        return;
+    }
+    public function togglePublic() {
+        $this->public = $this->public ? false : true;
+        $this->save();
+        return;
+    }
 }

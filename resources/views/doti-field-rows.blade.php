@@ -49,7 +49,7 @@
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i>+</button>
                 
                 <!-- Modal -->
-                <div id="#habitAddModal-{{$userField->id}}" class="modal fade" role="dialog">
+                <div id="habitAddModal-{{$userField->id}}" class="modal fade" role="dialog">
                   <div class="modal-dialog">
                     <div class="modal-content">
                 
@@ -59,16 +59,39 @@
                         
                       <div class="modal-body">
                       
+                        {{ Form::open(['url' => 'fieldhabit', 'method' => 'post']) }}
+                        {{ Form::hidden('form_name', 'fieldhabit_add') }}
+                        {{ Form::hidden('field_id', $userField->id) }}
+                        {{-- Form::model('', '') --}}
+                        {{-- method_field('PATCH') --}}
+                
+                        {{-- @var $field from HomeController --}}
+                        {{-- Form::model($newHabit, ['action' => 'FieldController@store']) --}}
+
+                
                         <div class="form-group">
-                          {!! Form::label('color', 'Colour') !!}
-                          <input class="form-control" type="color" id="colorForField" name="colorForField" style="width: 60px;"/>
+                          {!! Form::label('name', 'Name of Habit') !!}
+                          {!! Form::text('name', '', ['class' => 'form-control']) !!}
+                        </div>
+                            
+                        <div class="form-group">
+                          {!! Form::label('name', 'Name of Unit to measure with(eg. Walks, laps, interviews)') !!}
+                          {!! Form::text('unit_name', '', ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                          {!! Form::label('name', '[NOT USED ATM]Type of Unit(Decimal, Time, Percentage)') !!}
+                          {!! Form::text('unit_type', '', ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                          {!! Form::label('name', 'Comment for this habit.') !!}
+                          {!! Form::textarea('comment', '', ['class' => 'form-control']) !!}
                         </div>
                             
                       </div>
                             
                       <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Add!</button>
-                        {!! Form::close() !!}
+                        <button id="addHabit" class="btn btn-success" type="submit">Add!</button>
+                {{ Form::close() }}
                       </div>
                       
                     </div>  

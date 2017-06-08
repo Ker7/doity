@@ -10,7 +10,7 @@
             <div class="habit-more" style="display: none;">
             <p>Active1: {{ $h->active }}</p>
                 
-                {{ Form::open() }}
+                {{ Form::open(['url' => 'fieldhabit', 'method' => 'get']) }}
                 {{ Form::hidden('form_name', 'fieldhabit_active') }}
                 {{ Form::hidden('fieldhabit_id', $h->id) }}
                 {{-- method_field('GET') --}}

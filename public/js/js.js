@@ -88,7 +88,7 @@ $(document).ready(function() {
     
     var borderColor;
 
-    $('#colorForField').ColorPicker({
+    $('#colorForField').colorPicker({
         onSubmit : function(hsb, hex, rgb, el) {
             $(el).val('#' + hex);
             $(el).ColorPickerHide();
@@ -99,8 +99,31 @@ $(document).ready(function() {
             $(this).ColorPickerSetColor(this.value);
         }
     }).bind('keyup', function() {
-
+    
         $(this).ColorPickerSetColor(this.value);
-
+    
     });
+    
+    //$.fn.extend({
+    //    ColorPicker: ColorPicker.init,
+    //    ColorPickerHide: ColorPicker.hidePicker,
+    //    ColorPickerShow: ColorPicker.showPicker,
+    //    ColorPickerSetColor: ColorPicker.setColor
+    //});
+    //$('#colorForField').colorPicker({
+    //    color: '#000',
+    //    onShow: function (colpkr) {
+    //        $(colpkr).fadeIn(500);
+    //        return false;
+    //    },
+    //    onHide: function (colpkr) {
+    //        $(colpkr).fadeOut(500);
+    //        return false;
+    //    },
+    //    onChange: function (hsb, hex, rgb) {
+    //        $('#colorSelector').css('backgroundColor', '#' + hex);
+    //    }
+    //});
+    //            $('#<%=txtReserveType.ClientID %>')
+    
 });
