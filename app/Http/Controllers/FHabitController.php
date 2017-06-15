@@ -40,7 +40,6 @@ class FHabitController extends Controller
      */
     public function store(Request $request)
     {
-        
         $a = "";
         
         $post_type = $request->input('form_name');
@@ -48,16 +47,14 @@ class FHabitController extends Controller
         $user_field = $request->input('field_id');
         $habit_name = $request->input('name');
         
-        // new habit!
-        $newHabit = new Habit;
+        $newHabit = new Habit;      // new habit!
         $newHabit->name = $habit_name;
         $newHabit->author_user = Auth::user()->id;
         $newHabit->internal = 0;
         $newHabit->public = 0;
         $newHabit->save();
         
-        // new Field Habit
-        $newFHabit = new FHabit;
+        $newFHabit = new FHabit;        // new Field Habit
         $newFHabit->userfield_id = $user_field;
         $newFHabit->habit_id = $newHabit->id;
         $newFHabit->internal = 0;
@@ -67,24 +64,7 @@ class FHabitController extends Controller
         $newFHabit->public = 0;
         $newFHabit->comment = $request->input('comment');
         $newFHabit->save();
-        
-        
-        //$a = "hid:".$newHabit->id.":";
-        //
-        //// get new id
-        //// new fieldhabit
-        //// link 
-        //
-        //switch($post_type){
-        //    case('fieldhabit_add'): break;
-        //    default: break;
-        //}
-        //
-        //$a .= $request->input('field_id');
-        //$a .= $request->input('name');
-        //$a .= $request->input('form_name');
-        
-        //return $a;
+
         return redirect()->action('HomeController@index');
     }
     /**
@@ -106,17 +86,11 @@ class FHabitController extends Controller
      */
     public function edit(Request $request)
     {
-        //if $req
-        //echo $fHabit->id . "!";
-        
-        //echo $request->input('fieldhabit_id');
-        
-        $fieldHabit = FHabit::where('id', $request->input('fieldhabit_id'))->first();
-
-        //echo $fieldHabit->unit_name;    
+        $fieldHabit = FHabit::where('id', $request->input('fieldhabit_id'))->first();   
         
         switch($request->input('form_name')) {
             case('fieldhabit_active'): $fieldHabit->toggleActive(); break;
+            case('fieldhabit_public'): $fieldHabit->togglePublic(); break;
             default: break;
         }
         

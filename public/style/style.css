@@ -13,7 +13,7 @@ td {padding: 2px;padding-right: 6px}
 .home-fields-cont {
     float: left;
     display: inline-block;
-    margin-left: 20px;
+    /*margin-left: 20px;*/
     border: 4px solid #c6b2cc;
 }
 

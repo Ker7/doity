@@ -20,6 +20,8 @@ Auth::routes();
 Route::get  ('/home', 'HomeController@index')->name('home');
 Route::patch('/home', 'HomeController@postIndex' );
 
+Route::get  ('/track', 'TrackController@index')->name('track');
+
 Route::put('/profile', [ 'as' => 'profile.update', 'uses' => 'ProfileController@updateProfile'] );
 Route::get('/profile', 'ProfileController@index');
 

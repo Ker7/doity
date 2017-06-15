@@ -46,7 +46,7 @@
             <td>{{ Carbon\Carbon::parse($userField->updated_at)->format('jS F') }} :: </td>
                 
             <td>
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i>+</button>
+                <button type="button" title="New habit!" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i></button>
                 
                 <!-- Modal -->
                 <div id="habitAddModal-{{$userField->id}}" class="modal fade" role="dialog">

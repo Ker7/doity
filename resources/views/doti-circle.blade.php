@@ -38,7 +38,7 @@
     ];
     var dataForField = [
         @foreach ($userFields as $kei => $userField)
-            {{ mt_rand(20,80) }} {{ (($kei+1) == count($userFields) ) ? "" : "," }}
+            {{ 100 }} {{ (($kei+1) == count($userFields) ) ? "" : "," }}
         @endforeach
     ];
     var colorArray = [
