@@ -42,9 +42,21 @@ class FHabit extends Model
         return $this->hasOne('App\Unit', 'id', 'unit_id');
     }
     
+    //
+    // - TAGS!
+    //
+    public function getHabitTags()
+    {
+        return $this->hasMany('App\HabitTag', 'fieldhabit_id', 'id');
+    }
+    
     public function getTags()
     {
-        return $this->belongsToMany('App\Tag', 'id', 'unit_id');
+        return $this->belongsToMany('App\Tag', 'fhabit_tag', 'tag_id', 'fieldhabit_id');
+    }
+    public function getTagsa()
+    {
+        return $this->belongsToMany('App\Tag', 'fhabit_tag');
     }
     
     

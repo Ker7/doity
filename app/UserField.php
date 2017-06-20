@@ -55,7 +55,7 @@ class UserField extends Model
     /* Get habits linked to this user with internal value */
     public function getInternalHabits()
     {
-        $habs = $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', true);
+        $habs = $this->hasMany('App\FHabit', 'userfield_id', 'id')->where('internal', true);
                     //->orderBy('date_log', 'desc')
                     //->get();
         
@@ -69,7 +69,14 @@ class UserField extends Model
     public function getFieldIHabits()
     {                                       // tegelt peaks olema siin mille habit on "_log"
         //return $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', '=', 1);
-        $habitsb =  $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', '=', 1);
+        $habitsb =  $this->hasMany('App\FHabit', 'userfield_id', 'id')->where('internal', '=', 1);
+        //$habitsb = $this->getHabits()->getQuery()->orderBy('date_log', 'ASC')->get();
+        return $habitsb;
+    }
+    public function getFieldHabits()
+    {                                       // tegelt peaks olema siin mille habit on "_log"
+        //return $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', '=', 1);
+        $habitsb =  $this->hasMany('App\FHabit', 'userfield_id', 'id');
         //$habitsb = $this->getHabits()->getQuery()->orderBy('date_log', 'ASC')->get();
         return $habitsb;
     }

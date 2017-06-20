@@ -42,7 +42,7 @@ class HomeController extends Controller
         $newField = new Field;
         $newHabit = new Habit;
         //$field->name = 'Jukimuki';
-        
+
         $data = array(
             'userFields' => UserField::where('user_id', Auth::id())
                                         ->where('active', true)         //Retrieve only active fields

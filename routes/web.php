@@ -21,6 +21,7 @@ Route::get  ('/home', 'HomeController@index')->name('home');
 Route::patch('/home', 'HomeController@postIndex' );
 
 Route::get  ('/track', 'TrackController@index')->name('track');
+Route::post ('/track', 'TrackController@post')->name('track');
 
 Route::put('/profile', [ 'as' => 'profile.update', 'uses' => 'ProfileController@updateProfile'] );
 Route::get('/profile', 'ProfileController@index');
@@ -28,6 +29,10 @@ Route::get('/profile', 'ProfileController@index');
 Route::get('/test', 'FieldController@testStore');
 
 Route::get('/ajax-get-userfield-habits', 'UserFieldsController@ajaxGetFieldHabits');
+
+Route::get('/ajax-tracker-get-userfield-habits', 'UserFieldsController@ajaxTrackerGetFieldHabits');
+Route::get('/ajax-tracker-get-userfield-habit-unit', 'UserFieldsController@ajaxTrackerGetFieldHabitUnit');
+Route::get('/ajax-tracker-get-userfield-habit-tags', 'UserFieldsController@ajaxTrackerGetFieldHabitTags');
 
 Route::post('/fieldhabit', 'FHabitController@store');    // Habit add
 Route::get('/fieldhabit', 'FHabitController@edit');

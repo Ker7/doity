@@ -25,11 +25,57 @@ function myCallAjax(urlmeth, urlparam, fdata, sfunc, efunc) {
     });
 }
 
+//Get units with ajax
+function updateHabitUnit(vaal) {
+    myCallAjax("GET", "ajax-tracker-get-userfield-habit-unit", {fieldhabit_id:    vaal}, function(adata) {
+console.log('ajax-tracker-get-userfield-habit-unit-success');
+        $('#form-track-unit-name').html( adata );
+    }, function() {
+console.log('ajax-tracker-get-userfield-habit-unit-error');
+    });
+}
+
+//Get tags with ajax
+function updateHabitTags(vaal) {
+    myCallAjax("GET", "ajax-tracker-get-userfield-habit-tags", {fieldhabit_id:    vaal}, function(adata) {
+console.log('ajax-tracker-get-userfield-habit-tags-success');
+        $('#form-track-tags').html( adata );
+    }, function() {
+console.log('ajax-tracker-get-userfield-habit-tags-error');
+    });
+}
+
 // HAbit show more click.
 $(document).on("click", ".habit-show-more", function(event){
     event.preventDefault();
     $(this).next('.habit-more').slideToggle();
 });
+
+// Tracking habits
+//$('#form-track-fields').change(function(){
+//    //event.preventDefault();
+//    console.log('muutus');
+//});
+
+$('#form-track-fields').on('change', function() {
+    //alert( this.value );
+    
+    myCallAjax("GET", "ajax-tracker-get-userfield-habits", {userfield_id:    this.value}, function(adata) {
+console.log('ajax-tracker-get-userfield-habits-success');
+        $('#form-track-habits').html( adata );
+//console.log( $('#form-track-habits').val() );
+        updateHabitUnit( $('#form-track-habits').val() );
+    }, function() {
+console.log('ajax-tracker-get-userfield-habits-error');
+    });
+    
+});
+
+$('#form-track-habits').on('change', function() {
+//console.log( $('#form-track-habits').val() );
+    updateHabitUnit(this.value);
+    updateHabitTags(this.value);
+})
 
 $( "#fieldCircle" ).click(function(evt){
     var activePoints = myChart.getElementAtEvent(evt);

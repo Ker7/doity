@@ -14,39 +14,35 @@ use App\FHabit as FHabit;
 
 use Carbon\Carbon;
 
+//use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route as Route;
 
 class TrackController extends Controller
 {
-    //
     public function index() {
-        
+        // get User
         $user = User::where('id', Auth::id())->first();
+
+        // get User Fields
         $uf = UserField::where('user_id', Auth::id())->get();
-        $fh = array();
-        
+
+        // get each UserFields User Habit       
         foreach($uf as $userfields){
-            $hab = FHabit::where('userfield_id', $userfields->id)->get(); //$userfields->id;
-            foreach ($hab as $hh){
-                $hh->getHabit;
-            }
-            
-            $fh[] = $hab;
+            $habb = $userfields->getFieldHabits;
         }
         
-        print_r($user->name);
-        
-        foreach ($uf as $a){
-            print($a->getField->name);
-        }
-        foreach ($fh as $b){
-            //print($b->getHabit->name);
-        }
-        
-        //print_r($uf);
-        //print_r($fh);
-        
+        $data = [ 'userFields' => $uf,
+                  'nowDate' => Carbon::now()->timezone('Europe/Tallinn')->format('m/d/Y'),
+                  'nowTime' => Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') ];
         //return redirect()->action('HomeController@index');
+        //echo "</body></html>";
+        return view('track', $data);
+    }
     
+    public function post(Request $request) {
+        
+        print_r($request->input());
+        
     }
 }

@@ -85,5 +85,31 @@ class FieldsHabitSeeder extends Seeder
             ]);
             $i++;
         }
+        
+        DB::table('userfield_habit')->insert([
+            'id' => 29,
+            'internal' => false,
+            'userfield_id' => 10,
+            'habit_id' => 8,        // Hardcoded "_log" named habit
+            'unit_id' => 1,         // IF Field datalog, then unit is piece
+            'unit_name' => "€",     
+            'active' => 1,          // WWW III PPP
+            'public' => 0,
+            'created_at' => Carbon::now(),
+            'comment' => 'For tracking finances'
+        ]);
+        DB::table('userfield_habit')->insert([
+            'id' => 30,
+            'internal' => false,
+            'userfield_id' => 10,
+            'habit_id' => 11,        // Hardcoded "_log" named habit
+            'unit_id' => 1,         // IF Field datalog, then unit is piece
+            'unit_name' => "€",     
+            'active' => 1,          // WWW III PPP
+            'public' => 0,
+            'created_at' => Carbon::now(),
+            'comment' => 'For tracking finances'
+        ]);
+        
     }
 }
