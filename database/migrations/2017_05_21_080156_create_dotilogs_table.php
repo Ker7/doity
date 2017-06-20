@@ -17,15 +17,18 @@ class CreateDotilogsTable extends Migration
             $table->increments('id');
             $table->integer('fieldhabit_id');
             $table->date('date_log');
-            $table->date('time_log')->nullable();
+            $table->time('time_log')->nullable();
+            
+            $table->text('tag_ids')->nullable();
             
               /* Idee on kõikide andmete salvestamiseks kasutada decimali DB's */
-            $table->decimal('value_decimal', 12, 2);
+            $table->decimal('value_decimal', 12, 2)->nullable();
             //$table->integer('value_int');
             //$table->integer('value_time');
             
-            $table->text('comment');
+            $table->text('comment')->nullable();
             
+            $table->timestamps();
             /* @todo Custom attachments (-> Images, files w/e */
         });
     }

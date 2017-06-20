@@ -99,7 +99,15 @@ class UserFieldsController extends Controller
         //HTML for tags::
         
         foreach ($responseTagId as $i => $row){
-            $resp = $resp.'<p style="background-color:#2bf6b1; padding: 2px; padding-left: 24px; margin: 2px;display:inline-flex; float: left;">' . $responseTagName[$i] . '</p>';
+            $resp = $resp
+                .'<div style="background-color:#2bf6b1;margin: 2px; padding: 2px;"><input style="height: 14px;" type="checkbox" name="habit-tags[]" value="' . $responseTagId[$i] . '">' . $responseTagName[$i] . '</div><br>'
+                //.'<p style="background-color:#2bf6b1;
+                //            padding: 2px;
+                //            padding-left: 24px;
+                //            margin: 2px;
+                //            display:inline-flex;
+                //            float: left;">' . $responseTagName[$i] . '</p>'
+                            ;
         }
         
         

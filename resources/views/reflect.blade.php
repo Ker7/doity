@@ -11,7 +11,7 @@
 
                 
                 <!--<a href="#" style="color:#fff;"><i class="fa fa-btn fa-clone"></i>New Field</a>-->
-                    {{ Auth::user()->name }}, This is the tracking page.
+                    {{ Auth::user()->name }}, This is the looking back page.
                 </div>
  
 <!--                <div id="main-message-div" class="panel-body">
@@ -26,30 +26,14 @@
                         <div class="col-sm-4"><h3>When?</h3></div>
                     </div>
                 
-                    {{ Form::open() }}
                     <div class="row">
                         <div class="col-sm-4">
                         
-                            <select name="form-track-fields" id="form-track-fields">
-                                <option>*Choose field*</option>
-                                @foreach ($userFields as $k => $u)
-                                    <option value="{{ $u->id }}">{{ $u->getField->name }}</option>
-                                @endforeach
-                            </select>
-                            <select name="form-track-habits" id="form-track-habits">
-                            </select>
-                                
                         </div>
                         <div class="col-sm-4">
                             
-                            <input type="number" name="habit-value" step="any" width=8 /> <span id="form-track-unit-name"></span>
-                            
                         </div>
                         <div class="col-sm-4">
-                        
-                            {{ Form::date('date', \Carbon\Carbon::now()->timezone('Europe/Tallinn')) }}
-                            {{ Form::time('time', $nowTime) }}
-                            {{-- $nowTime --}}
                         
                         </div>
                     </div>
@@ -58,17 +42,12 @@
                     
                     <div class="row">
                         <div class="col-sm-4">
-                            <h5>Tags ::</h5>
-                            <span id="form-track-tags-selected"></span>
-                            <span id="form-track-tags"></span>
                         </div>
-                        <div class="col-sm-4">{{ Form::text('comment', null, ['placeholder' => 'comment'] ) }}</div>
-                        <div class="col-sm-4">{{ Form::submit('TrackIT', ['class' => 'btn btn-sm btn-success']) }}</div>
+                        <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-4">
+                        </div>
                     </div> 
-                    
-                    {{ Form::close() }}
-                    
-                            
                         
                     <div id="habits-block" style="display: inline-block;width:50%"></div>
                     

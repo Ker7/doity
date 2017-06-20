@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('home');
+//});
+Route::get  ('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -22,6 +23,8 @@ Route::patch('/home', 'HomeController@postIndex' );
 
 Route::get  ('/track', 'TrackController@index')->name('track');
 Route::post ('/track', 'TrackController@post')->name('track');
+
+Route::get  ('/reflect', 'HomeController@reflect')->name('reflect');
 
 Route::put('/profile', [ 'as' => 'profile.update', 'uses' => 'ProfileController@updateProfile'] );
 Route::get('/profile', 'ProfileController@index');

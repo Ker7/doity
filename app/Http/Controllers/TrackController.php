@@ -11,6 +11,7 @@ use App\Field as Field;
 use App\UserField as UserField;
 use App\Habit as Habit;
 use App\FHabit as FHabit;
+use App\Dotilog as Dotilog;
 
 use Carbon\Carbon;
 
@@ -42,7 +43,19 @@ class TrackController extends Controller
     
     public function post(Request $request) {
         
-        print_r($request->input());
+        //print_r($request->input());
         
+        $dl = new Dotilog;
+        
+        $dl->fieldhabit_id = $request->input('form-track-habits');
+        $dl->date_log = $request->input('date');
+        $dl->time_log = $request->input('time');
+        $dl->tag_ids = implode(',', $request->input('habit-tags'));
+        $dl->value_decimal = $request->input('habit-value');
+        $dl->comment = $request->input('comment');
+        
+        $dl->save();
+        
+        return redirect()->action('TrackController@index');
     }
 }

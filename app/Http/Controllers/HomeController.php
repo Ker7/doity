@@ -92,12 +92,11 @@ class HomeController extends Controller
                 default: break;
             }
         }
-        //print_r($request);
-        
-        
-        
         return $this->index();
-
+    }
+    
+    public function reflect(){
+        return view('reflect');
     }
     
     public function processFormFieldClicked($ufid){
