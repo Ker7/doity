@@ -33,7 +33,7 @@ class FHabit extends Model
     public function getLogs()
     {
         //return $this->hasMany('App\Dotilog', 'fieldhabit_id', 'id');
-        return $this->hasMany('App\Dotilog', 'fieldhabit_id', 'id')->orderBy('date_log')->limit(30);
+        return $this->hasMany('App\Dotilog', 'fieldhabit_id', 'id')->orderBy('date_log'); //->limit(30);
                     //->get();
     }
     
@@ -43,21 +43,22 @@ class FHabit extends Model
     }
     
     //
-    // - TAGS!
+    // - TAGS! //attached to this Habit!!
     //
     public function getHabitTags()
     {
         return $this->hasMany('App\HabitTag', 'fieldhabit_id', 'id');
     }
     
-    public function getTags()
-    {
-        return $this->belongsToMany('App\Tag', 'fhabit_tag', 'tag_id', 'fieldhabit_id');
-    }
-    public function getTagsa()
-    {
-        return $this->belongsToMany('App\Tag', 'fhabit_tag');
-    }
+    // DEPRICATED!! Habits -> getTags võtavad otse Habit'id
+    //public function getTags()
+    //{
+    //    return $this->belongsToMany('App\Tag', 'fhabit_tag', 'tag_id', 'fieldhabit_id');
+    //}
+    ////////////////public function getTagsa()
+    ////////////////{
+    ////////////////    return $this->belongsToMany('App\Tag', 'fhabit_tag');
+    ////////////////}
     
     
     /* Toggle whether this Field is shown to others or not.

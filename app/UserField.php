@@ -76,7 +76,7 @@ class UserField extends Model
     public function getFieldHabits()
     {                                       // tegelt peaks olema siin mille habit on "_log"
         //return $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', '=', 1);
-        $habitsb =  $this->hasMany('App\FHabit', 'userfield_id', 'id');
+        $habitsb =  $this->hasMany('App\FHabit', 'userfield_id', 'id')->where('internal', '=', 0);
         //$habitsb = $this->getHabits()->getQuery()->orderBy('date_log', 'ASC')->get();
         return $habitsb;
     }

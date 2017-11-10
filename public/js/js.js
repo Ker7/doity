@@ -72,7 +72,21 @@ console.log('ajax-tracker-get-userfield-habits-success');
     }, function() {
 console.log('ajax-tracker-get-userfield-habits-error');
     });
-    
+});
+
+$('#form-reflect-field').on('change', function() {
+    //alert( 'fieldChange' );
+    myCallAjax("GET", "ajax-reflector-get-userfield-habits", {userfield_id:    this.value}, function(adata) {
+console.log('ajax-reflector-get-userfield-habits-success');
+        $('#form-reflect-habits').html( adata );
+//console.log(adata);
+//console.log( $('#form-track-habits').val() );
+        //updateHabitUnit( $('#form_reflect_habits').val() );
+        //updateHabitTags( $('#form_reflect_habits').val() );
+//console.log( '3val::' + $('#form-track-habits').val() );
+    }, function() {
+console.log('ajax-reflector-get-userfield-habits-error');
+    });
 });
 
 $('#form-track-habits').on('change', function() {
@@ -139,21 +153,21 @@ $(document).ready(function() {
     
     var borderColor;
 
-    $('#colorForField').colorPicker({
-        onSubmit : function(hsb, hex, rgb, el) {
-            $(el).val('#' + hex);
-            $(el).ColorPickerHide();
-            borderColor = $('#colorForField').val();
-            $('#news').css('border-color', borderColor);
-        },
-        onBeforeShow : function() {
-            $(this).ColorPickerSetColor(this.value);
-        }
-    }).bind('keyup', function() {
-    
-        $(this).ColorPickerSetColor(this.value);
-    
-    });
+    //$('#colorForField').colorPicker({
+    //    onSubmit : function(hsb, hex, rgb, el) {
+    //        $(el).val('#' + hex);
+    //        $(el).ColorPickerHide();
+    //        borderColor = $('#colorForField').val();
+    //        $('#news').css('border-color', borderColor);
+    //    },
+    //    onBeforeShow : function() {
+    //        $(this).ColorPickerSetColor(this.value);
+    //    }
+    //}).bind('keyup', function() {
+    //
+    //    $(this).ColorPickerSetColor(this.value);
+    //
+    //});
     
     //$.fn.extend({
     //    ColorPicker: ColorPicker.init,
@@ -177,4 +191,24 @@ $(document).ready(function() {
     //});
     //            $('#<%=txtReserveType.ClientID %>')
     
+    //if hours sum element exist, calculate the sum!
+    //console.log($( ".decimal-sum" ).length)
+        //console.log('123');
+    if ( $( ".decimal-sum" ).length ) {
+        var sum = 0;
+    
+        //$(".decimal-sum").value(sum);
+        //console.log("123"+$('.decimal-fields').count());
+        $('.decimal-fields').each(function() {
+            //console.log($(this).text());
+            
+            //sum += $(this).text();
+            sum += parseFloat($(this).text().replace(/([^0-9\.])/g, ''));
+            
+            //sum += Number($(this).val());
+        });
+        $( ".decimal-sum" ).text(sum);
+    //console.log(sum)
+        
+   }
 });

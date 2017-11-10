@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\UserField;
 use App\FHabit;
+use App\Tag;
+use App\HabitTag;
+use App\Dotilog;
 use Illuminate\Http\Request;
 
 class UserFieldsController extends Controller
@@ -57,6 +60,25 @@ class UserFieldsController extends Controller
         return $data;
         //return view('ajax.habits', $data);
     }
+    // Reflectimisel saad valida, erineb ülemisest, sest näitab logide counti
+    public function ajaxReflectorGetFieldHabits(Request $request)
+    {
+        // Ajax request gives the requested UserField ID
+        $uf = $request->input('userfield_id');
+        
+        // Now we gonna find all this UserField's habits
+        $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        
+        //$names = "";
+        $data = "";
+        
+        foreach ($habits as $habit) {
+            $habit->getHabit->name;
+            $data .= "<option value='" . $habit->id . "'>" . $habit->getHabit->name . " ". count($habit->getLogs) ."logs</option>";
+        }
+        return $data;
+        //return view('ajax.habits', $data);
+    }
     // Trackimise lehel dropdown valides tuleb ajax req siia et saada habitite unitid
     public function ajaxTrackerGetFieldHabitUnit(Request $request)
     {
@@ -81,7 +103,7 @@ class UserFieldsController extends Controller
         
         // Now we gonna find all this UserField's habits
         $fhabit = FHabit::where('id', $ufh)->first();
-        $habitTags = $fhabit->getHabitTags;
+        $habitTags = $fhabit->getHabitTags;     //attached to this Habit!!
         foreach($habitTags as $ht){
             $ht->getTag;
             
@@ -99,37 +121,57 @@ class UserFieldsController extends Controller
         //HTML for tags::
         
         foreach ($responseTagId as $i => $row){
-            $resp = $resp
-                .'<div style="background-color:#2bf6b1;margin: 2px; padding: 2px;"><input style="height: 14px;" type="checkbox" name="habit-tags[]" value="' . $responseTagId[$i] . '">' . $responseTagName[$i] . '</div><br>'
-                //.'<p style="background-color:#2bf6b1;
-                //            padding: 2px;
-                //            padding-left: 24px;
-                //            margin: 2px;
-                //            display:inline-flex;
-                //            float: left;">' . $responseTagName[$i] . '</p>'
-                            ;
+            $resp .= $resp
+                .'<div style="background-color:#2bf6b1;margin: 2px; padding: 2px; float: left;">
+                    <input
+                      style=" height: 14px;"
+                              type="checkbox"
+                              name="habit-tags[]"
+                              value="' . $responseTagId[$i] . '">' . $responseTagName[$i]
+                .'</div>';
         }
         
+        //$hhabit = $fhabit->getHabit;
+        //print_r( Tag::all() );
         
-        //$resp .= '<select multiple>';
-        //foreach ($responseTagId as $i => $row){
-        //    $resp .= '<option value="' . $responseTagId[$i] . ' . ">' . $responseTagName[$i] . '</option>';
+        foreach(Tag::all() as $tag){
+            //echo $tag->name;
+        }
+        
+        //echo $resp;
+        
+        // GET ALL TAGS
+        //foreach (Tag::all() as $tag){
+            //echo '<div style="background-color:#2bf6b1;margin: 2px; padding: 2px; float: left;">
+            //        <input
+            //          style=" height: 14px;"
+            //                  type="checkbox"
+            //                  name="habit-tags[]"
+            //                  value="' . $tag->id . '">' . $tag->name
+            //    .'</div>';
+//echo $tag->id . ' - '.$tag->name .'<br />';
         //}
-        //$resp .= '</select>';
+        // GET ALL 
         
-        //print_r($fhabit);
-        //print_r($resp);
+        $habtags = HabitTag::where('fieldhabit_id', $request->input('fieldhabit_id'))->get();
         
-        //echo "123123";
+        //print_r($habtags);
+        //echo '</ br>';
         
+        foreach ( $habtags as $htg) {
+            $htg->getHabit;
+            print_r($htg);
+            //echo $htg->id . ' - '.$htg->getHabit->name .'<br />';
+        }
+        
+        return;
+        //$logs = Dotilog::all();
         //
-        //$res = array();
-        //foreach($habitTags as $ht){
-        //    $res[] = $ht->getTag->name;
+        //foreach($logs as $l) {
+        //    echo $l->id;
         //}
-        //
-        ////return "123123123";
-        return $resp;
+        
+        //return $resp;
     }
     
     

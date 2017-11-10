@@ -13,6 +13,8 @@ use App\User as User;
 use App\Field as Field;
 use App\UserField as UserField;
 use App\Habit as Habit;
+use App\Dotilog as Dotilog;
+use App\FHabit as FHabit;
 
 use Carbon\Carbon;
 
@@ -59,7 +61,7 @@ class HomeController extends Controller
         // Ajax@home, here shouldn't do much
         if(Request::ajax()){
             echo "ajaxx!";
-            $str = "123";
+            $str = "123Ajax@HomeController";
             return $str;//Response::json(Request::all()); 
         }
         
@@ -94,9 +96,96 @@ class HomeController extends Controller
         }
         return $this->index();
     }
-    
+     /*
+      * Filters to see selection:
+      * dtf - date_from
+      * dtt - date_to
+      * pid - project_id
+      * uid - user_id
+      *
+      */
     public function reflect(){
-        return view('reflect');
+        
+        // TESTING PARAMETER SHOW ONLY!! //
+        //$this->displayGet();
+        //$this->displayMeth();
+        // TESTING END //
+        
+        $data = array();            //data array to be passed to View                              
+        $fieldHabits = array();     //a link between a Habit and UserField
+        $dotiLogs = array();        //a record of data
+
+        $lookup_user_id = Auth::id();
+        $user       = User::where('id', $lookup_user_id)->first();
+
+        $date_later_than = Carbon::now()->subDays(8);   //DEFAULT value
+        $date_less_than = Carbon::now();                //DEFAULT value
+        
+        $get_field_id = Input::get('form_reflect_field');   //If set then use it to display default option in form
+        $get_habit_id = Input::get('form_reflect_habits');
+        
+        if ( null !== Input::get('dtf')) {
+            $date_later_than = Carbon::parse(Input::get('dtf'));
+        }
+        if ( null !== Input::get('dtt')) {
+            $date_less_than = Carbon::parse(Input::get('dtt'));
+        }
+
+        //@@todo, viia User klassi? Viidud suur osa.
+        $user = User::where('id', $lookup_user_id)->firstOrFail();
+        $userFields = UserField::where('user_id', $lookup_user_id)
+                                        ->where('active', true)
+                                        ->get();
+                                        
+        // IF it is said in GET parameter what fields then use that
+        if ( null !== Input::get('form_reflect_field')) {
+            $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
+                                            ->where('active', true)
+                                            ->get();
+        } else {
+            $userFieldsToForm = $userFields;
+        }
+        $unique_habits = array(); //for filtering ID-> name, of all projects (attached to self user!) @@todo attach projects to usersby admin
+                     
+        foreach ($userFieldsToForm as $uf){
+            //After page load habits are loaded for selection
+            if ( null !== Input::get('form_reflect_field')) {
+                $unique_habits[] = FHabit::where('userfield_id', Input::get('form_reflect_field'))->where('internal', false)->withCount('getLogs')->get();
+            }
+
+            // If Project is defined! @@todo multiple select siia..
+            if ( null !== Input::get('form_reflect_habits')) {
+                $fieldHabits[] = FHabit::where('id', Input::get('form_reflect_habits'))
+                                    ->where('active', true)
+                                    ->get();
+            } else {
+                $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
+                                    ->where('active', true)
+                                    ->get();
+            }
+        }
+        
+        /*   Seda kasutab. ajapiiramised ?!?! */
+        foreach ($fieldHabits as $fhh){
+          foreach ($fhh as $fh){
+            $dotiLogs[] = Dotilog::where('fieldhabit_id', $fh->id)
+                                    ->where('date_log', '>=', $date_later_than)
+                                    ->where('date_log', '<=', $date_less_than)
+                                    ->orderBy('date_log', 'desc')
+                                    ->get();
+          }
+        }
+
+        $data['date_later_than'] = $date_later_than;
+        $data['date_less_than'] = $date_less_than;
+        $data['userFields'] = $userFields;
+        $data['get_field_id'] = $get_field_id;
+        $data['get_habit_id'] = $get_habit_id;
+        
+        $data['dotiLogs'] = $dotiLogs;
+        $data['unique_habits'] = $unique_habits;
+
+        return view('reflect', $data);
     }
     
     public function processFormFieldClicked($ufid){
@@ -116,6 +205,10 @@ class HomeController extends Controller
         $userField = UserField::findOrFail($ufid); 
         $userField->togglePublic();
         return $this->index();
+    }
+    
+    public function getDateForForm($value){
+        return Carbon::parse($value)->format('m/d/Y');//->timezone('Europe/Tallinn');
     }
 
     private function displayMeth(){

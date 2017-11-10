@@ -16,7 +16,7 @@ class HabitTag extends Model
     
     public function getTag()
     {
-        return $this->hasOne('App\Tag', 'id', 'tag_id');
+        return $this->hasOne('App\Tag', 'id', 'tag_id', 'fhabit_tag');
     }
     //
 }

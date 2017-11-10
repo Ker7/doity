@@ -22,7 +22,7 @@
                 
                     <div class="row">
                         <div class="col-sm-4"><h3>Did what?</h3></div>
-                        <div class="col-sm-4"><h3>How long?</h3></div>
+                        <div class="col-sm-4"><h3>How much/long?</h3></div>
                         <div class="col-sm-4"><h3>When?</h3></div>
                     </div>
                 
@@ -49,7 +49,6 @@
                         
                             {{ Form::date('date', \Carbon\Carbon::now()->timezone('Europe/Tallinn')) }}
                             {{ Form::time('time', $nowTime) }}
-                            {{-- $nowTime --}}
                         
                         </div>
                     </div>
@@ -67,9 +66,7 @@
                     </div> 
                     
                     {{ Form::close() }}
-                    
-                            
-                        
+
                     <div id="habits-block" style="display: inline-block;width:50%"></div>
                     
                 </div>

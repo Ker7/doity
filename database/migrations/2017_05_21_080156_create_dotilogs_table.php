@@ -25,6 +25,7 @@ class CreateDotilogsTable extends Migration
             $table->decimal('value_decimal', 12, 2)->nullable();
             //$table->integer('value_int');
             //$table->integer('value_time');
+            $table->boolean('is_counting')->default(false);
             
             $table->text('comment')->nullable();
             

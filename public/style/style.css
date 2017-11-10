@@ -82,3 +82,7 @@ body, .btn-link {
     border-color: #7b428a;
     border-radius: 0px;
 }
+
+.reflect-date {
+    width: 135px;
+}

@@ -29,7 +29,9 @@ class HabitsSeeder extends Seeder
             array('id' => 11,'name' => 'Tarbi',             'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => false, 'created_at' => Carbon::now()),
             array('id' => 12,'name' => 'Loe',               'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => false, 'created_at' => Carbon::now()),
             array('id' => 13,'name' => 'Meditatsioon',      'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => false, 'created_at' => Carbon::now()),
-            array('id' => 14,'name' => '_log',              'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => true, 'created_at' => Carbon::now())
+            array('id' => 14,'name' => '_log',              'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => true, 'created_at' => Carbon::now()),
+            array('id' => 15,'name' => 'Projekt_A',         'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => false, 'created_at' => Carbon::now()),
+            array('id' => 16,'name' => 'Projekt_B',         'author_user' => Rand(1,3), 'public' => Rand(0,1), 'internal' => false, 'created_at' => Carbon::now())
             );
         
         //"#FF6384","#4BC0C0","#9476AB","#E7E9ED","#36A2EB","#D4BA6A","#420029","#E7E9ED"

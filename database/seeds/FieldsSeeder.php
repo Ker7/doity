@@ -24,7 +24,8 @@ class FieldsSeeder extends Seeder
             array('id' => 4,'name' => 'Sotsialiseerumine',  'color' => '#E7E9ED','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now()),
             array('id' => 5,'name' => 'Muusika',            'color' => '#36A2EB','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now()),
             array('id' => 6,'name' => 'Programmeerimine',   'color' => '#D4BA6A','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now()),
-            array('id' => 7,'name' => 'Töö',                'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now())
+            array('id' => 7,'name' => 'Töö',                'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now()),
+            array('id' => 8,'name' => 'Baltic Steelarc',    'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 0, 'created_at' => Carbon::now())
             );
         
         //"#FF6384","#4BC0C0","#9476AB","#E7E9ED","#36A2EB","#D4BA6A","#420029","#E7E9ED"

@@ -34,6 +34,7 @@ Route::get('/test', 'FieldController@testStore');
 Route::get('/ajax-get-userfield-habits', 'UserFieldsController@ajaxGetFieldHabits');
 
 Route::get('/ajax-tracker-get-userfield-habits', 'UserFieldsController@ajaxTrackerGetFieldHabits');
+Route::get('/ajax-reflector-get-userfield-habits', 'UserFieldsController@ajaxReflectorGetFieldHabits');
 Route::get('/ajax-tracker-get-userfield-habit-unit', 'UserFieldsController@ajaxTrackerGetFieldHabitUnit');
 Route::get('/ajax-tracker-get-userfield-habit-tags', 'UserFieldsController@ajaxTrackerGetFieldHabitTags');
 

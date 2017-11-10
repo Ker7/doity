@@ -29,7 +29,7 @@ class UsersSeeder extends Seeder
                 'name' => 'Kert',
                 'email' => 'kert@mail.com',
                 'password' => Hash::make('asd'),
-                'privilege' => 1,
+                'privilege' => 10,
                 'created_at' => Carbon::now()
                 ),
             array(
@@ -38,6 +38,14 @@ class UsersSeeder extends Seeder
                 'email' => 'andrus@mail.com',
                 'password' => Hash::make('asd'),
                 'privilege' => 1,
+                'created_at' => Carbon::now()
+                ),
+            array(
+                'id' => 4,
+                'name' => 'Baltic Steelarc Worker',
+                'email' => 'bsa@mail.com',
+                'password' => Hash::make('asd'),
+                'privilege' => 5,
                 'created_at' => Carbon::now()
                 )
             );

@@ -38,5 +38,14 @@ class UserFieldSeeder extends Seeder
                 $i++;
             }
         }
+        DB::table('field_user')->insert([
+            'id' => 22,     // last one ended at 21 !! @todo a function than would add a new habit [work project] to all the user fields (or selectively) by admin.
+            'user_id' => 4,
+            'field_id' => 8,
+            'active' => 1,
+            'clicked' => 1,
+            'public' => 1,
+            'created_at' => Carbon::now()
+        ]);
     }
 }

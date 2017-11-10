@@ -6,6 +6,8 @@ use App\UserField;
 use App\FHabit;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
+
 class testController extends Controller
 {
     public function index()
@@ -18,7 +20,15 @@ class testController extends Controller
         //$this->iii(13);
         
         //Küsitakse userfield'i ajaxiga, Habiteid! Teeme nii
-        return "UFCont@index! Count: " . action('FHabitController@index');
+        //return "UFCont@index! Count: " . action('FHabitController@index');
+        
+        Mail::send( 'emails.test', ['name' => "Novvv"], function($message)
+        {
+            $message
+                ->to( 'kert.mottus@gmail.com', 'Some Guy' )
+                ->from('tere@bla.ee')
+                ->subject('tere');
+        } );
     }
     
     public function iii($af) {

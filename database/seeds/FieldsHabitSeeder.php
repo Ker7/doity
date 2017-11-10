@@ -111,5 +111,31 @@ class FieldsHabitSeeder extends Seeder
             'comment' => 'For tracking finances'
         ]);
         
+        //BSA kontole test projekte
+        DB::table('userfield_habit')->insert([
+            'id' => 31,
+            'internal' => false,
+            'userfield_id' => 22,
+            'habit_id' => 15,        // Hardcoded "_log" named habit
+            'unit_id' => 1,         // IF Field datalog, then unit is piece
+            'unit_name' => "Hours",     
+            'active' => 1,          // WWW III PPP
+            'public' => 0,
+            'created_at' => Carbon::now(),
+            'comment' => 'For tracking worktime'
+        ]);
+        DB::table('userfield_habit')->insert([
+            'id' => 32,
+            'internal' => false,
+            'userfield_id' => 22,
+            'habit_id' => 16,        // Hardcoded "_log" named habit
+            'unit_id' => 1,         // IF Field datalog, then unit is piece
+            'unit_name' => "Hours",     
+            'active' => 1,          // WWW III PPP
+            'public' => 0,
+            'created_at' => Carbon::now(),
+            'comment' => 'For tracking worktime'
+        ]);
+        
     }
 }
