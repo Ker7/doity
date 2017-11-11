@@ -100,29 +100,43 @@ class HomeController extends Controller
       * Filters to see selection:
       * dtf - date_from
       * dtt - date_to
-      * pid - project_id
-      * uid - user_id
-      *
+      * form_reflect_field - project_id
+      * form_reflect_habits - user_id
+      * uid - User ID if have privilege
+      * 
       */
     public function reflect(){
         
         // TESTING PARAMETER SHOW ONLY!! //
-        //$this->displayGet();
+        $this->displayGet();
         //$this->displayMeth();
         // TESTING END //
         
         $data = array();            //data array to be passed to View                              
         $fieldHabits = array();     //a link between a Habit and UserField
         $dotiLogs = array();        //a record of data
+        $userSelect = array();      // array of user-id => name's
+        
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 7 );
 
-        $lookup_user_id = Auth::id();
+        $get_field_id = Input::get('form_reflect_field');   //If set then use it to display default option in form
+        $get_habit_id = Input::get('form_reflect_habits');
+        $get_user_id = Input::get('uid');
+        
+        //IF HAVE Privilege 8+ then can sort by users as well
+        if ($is_admin && null !== $get_user_id) {
+            $lookup_user_id = $get_user_id;
+        } else {
+            $lookup_user_id = Auth::id();
+        }
+        $userSelect = User::where('privilege', '<', 8)->get();
+        
         $user       = User::where('id', $lookup_user_id)->first();
 
         $date_later_than = Carbon::now()->subDays(8);   //DEFAULT value
         $date_less_than = Carbon::now();                //DEFAULT value
         
-        $get_field_id = Input::get('form_reflect_field');   //If set then use it to display default option in form
-        $get_habit_id = Input::get('form_reflect_habits');
+
         
         if ( null !== Input::get('dtf')) {
             $date_later_than = Carbon::parse(Input::get('dtf'));
@@ -179,11 +193,14 @@ class HomeController extends Controller
         $data['date_later_than'] = $date_later_than;
         $data['date_less_than'] = $date_less_than;
         $data['userFields'] = $userFields;
+        $data['get_user_id'] = $get_user_id;
         $data['get_field_id'] = $get_field_id;
         $data['get_habit_id'] = $get_habit_id;
         
         $data['dotiLogs'] = $dotiLogs;
         $data['unique_habits'] = $unique_habits;
+        $data['is_admin'] = $is_admin;
+        $data['userSelect'] = $userSelect;
 
         return view('reflect', $data);
     }

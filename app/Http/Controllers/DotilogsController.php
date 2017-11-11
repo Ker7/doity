@@ -55,9 +55,10 @@ class DotilogsController extends Controller
      * @param  \App\Dotilog  $dotilog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dotilog $dotilog)
+    public function edit(Dotilog $dotilog, $id)
     {
-        //
+        echo 'Dotilog@edit, id:'.$id;
+        return redirect()->action('HomeController@reflect');
     }
 
     /**
@@ -67,9 +68,37 @@ class DotilogsController extends Controller
      * @param  \App\Dotilog  $dotilog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dotilog $dotilog)
+    public function update(Request $request, $val)//Dotilog $dotilog)
     {
-        //
+        //print_r($val);
+        
+        //$request->input('date_log')
+        //$request->input('time_log')
+        //$request->input('date_log2')
+        //$request->input('time_log2')
+        //$request->input('is_counting')
+        //$request->input('user_id')
+        //$request->input('')
+        
+        $log = Dotilog::where('id', $val)->first();
+        
+        $log->date_log = $request->input('date_log');
+        $log->time_log = $request->input('time_log');
+        $log->date_log2 = $request->input('date_log2');
+        $log->time_log2 = $request->input('time_log2');
+        $log->is_counting = $request->input('is_counting');
+        
+        $log->save();
+        //print_r($log);
+        //echo 'Dotilog@update, id:'.$dotilog->id;
+        
+        return redirect()->action('HomeController@reflect', [
+                    'uid' => $request->input('uid'),
+                    'dtf' => $request->input('dtf'),
+                    'dtt' => $request->input('dtt'),
+                    'form_reflect_field' => $request->input('form_reflect_field'),
+                    'form_reflect_habits' => $request->input('form_reflect_habits'),
+                    ]);
     }
 
     /**

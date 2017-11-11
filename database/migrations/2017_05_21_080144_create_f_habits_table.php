@@ -37,7 +37,7 @@ class CreateFHabitsTable extends Migration
             $table->boolean('public')->default(false);
             
             // $table->string('habittag_id'); For ManyToMany we don't need a key here
-            $table->text('comment');
+            $table->text('comment')->nullable();
             
             $table->timestamps();
         });

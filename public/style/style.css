@@ -86,3 +86,10 @@ body, .btn-link {
 .reflect-date {
     width: 135px;
 }
+.form-edit-dotilog {
+    float: right;
+}
+.btn-custom {
+    padding: 0px 2px;
+    height: 20px;
+}

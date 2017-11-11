@@ -49,6 +49,9 @@ Route::get('/test', 'testController@index');
 // New approach!
 Route::resource('field', 'FieldController');
 Route::resource('userfield', 'UserFieldsController');
-Route::resource('logs', 'DotilogController');
+//Route::resource('logs', 'DotilogsController');
+Route::resource('logs', 'DotilogsController', ['parameters' => [
+    'index' => 'filter'
+]]);
 
 Route::patch('/home', 'HomeController@postIndex' );

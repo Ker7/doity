@@ -18,6 +18,8 @@ class CreateDotilogsTable extends Migration
             $table->integer('fieldhabit_id');
             $table->date('date_log');
             $table->time('time_log')->nullable();
+            $table->date('date_log2')->nullable()->default(null);
+            $table->time('time_log2')->nullable()->default(null);
             
             $table->text('tag_ids')->nullable();
             
@@ -28,6 +30,7 @@ class CreateDotilogsTable extends Migration
             $table->boolean('is_counting')->default(false);
             
             $table->text('comment')->nullable();
+            $table->text('ip_address')->nullable()->default(null);
             
             $table->timestamps();
             /* @todo Custom attachments (-> Images, files w/e */
