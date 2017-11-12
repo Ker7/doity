@@ -45,10 +45,7 @@ class TrackController extends Controller
     
     public function post(Request $request) {
         
-        //print_r($request->input());
-        
-        //$tags = array();
-        
+        //kui GET dotilog_id on olemas siis on edit!
         
         $dl = new Dotilog;
         
@@ -93,11 +90,17 @@ class TrackController extends Controller
     }
     
     private function timerTracking() {
+        
+        echo "tere";
+echo (config('doti-settings.single-habit-tracking')?"webRouter":"not");
+
         // get User
         $user = User::where('id', Auth::id())->first();
 
         // get User Fields
         $uf = UserField::where('user_id', Auth::id())->get();
+        
+        $newLog = new Dotilog;
 
         $habb = array();    //User Field Habits
         
@@ -122,7 +125,8 @@ class TrackController extends Controller
         //print_r($openLogs);
         //print_r('---#0#---');
         
-        $data = [ 'userFields' => $uf,
+        $data = [ 'newLog' => $newLog,
+                  'userFields' => $uf,
                   'nowDate' => Carbon::now()->timezone('Europe/Tallinn')->format('m/d/Y'),
                   'nowTime' => Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i'),
                   'openLogs' => $openLogs ];

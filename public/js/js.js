@@ -36,28 +36,12 @@ console.log('ajax-tracker-get-userfield-habit-unit-error');
     });
 }
 
-//Get tags with ajax
-function updateHabitTags(vaal) {
-    $('#form-track-tags').empty();
-    myCallAjax("GET", "ajax-tracker-get-userfield-habit-tags", {fieldhabit_id:    vaal}, function(adata) {
-console.log('ajax-tracker-get-userfield-habit-tags-success');
-        $('#form-track-tags').html( adata );
-    }, function() {
-console.log('ajax-tracker-get-userfield-habit-tags-error');
-    });
-}
 
 // HAbit show more click.
 $(document).on("click", ".habit-show-more", function(event){
     event.preventDefault();
     $(this).next('.habit-more').slideToggle();
 });
-
-// Tracking habits
-//$('#form-track-fields').change(function(){
-//    //event.preventDefault();
-//    console.log('muutus');
-//});
 
 $('#form-track-fields').on('change', function() {
     //alert( 'fieldChange' );
@@ -79,11 +63,6 @@ $('#form-reflect-field').on('change', function() {
     myCallAjax("GET", "ajax-reflector-get-userfield-habits", {userfield_id:    this.value}, function(adata) {
 console.log('ajax-reflector-get-userfield-habits-success');
         $('#form-reflect-habits').html( adata );
-//console.log(adata);
-//console.log( $('#form-track-habits').val() );
-        //updateHabitUnit( $('#form_reflect_habits').val() );
-        //updateHabitTags( $('#form_reflect_habits').val() );
-//console.log( '3val::' + $('#form-track-habits').val() );
     }, function() {
 console.log('ajax-reflector-get-userfield-habits-error');
     });

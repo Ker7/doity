@@ -94,6 +94,9 @@ class UserFieldsController extends Controller
     
     public function ajaxTrackerGetFieldHabitTags(Request $request)
     {
+        //No tag returning for now.
+        return '';
+        
         $responseTagId = [];
         $responseTagName = [];
         $resp="";
@@ -119,7 +122,6 @@ class UserFieldsController extends Controller
         ];
         
         //HTML for tags::
-        
         foreach ($responseTagId as $i => $row){
             $resp .= $resp
                 .'<div style="background-color:#2bf6b1;margin: 2px; padding: 2px; float: left;">
@@ -131,47 +133,7 @@ class UserFieldsController extends Controller
                 .'</div>';
         }
         
-        //$hhabit = $fhabit->getHabit;
-        //print_r( Tag::all() );
-        
-        foreach(Tag::all() as $tag){
-            //echo $tag->name;
-        }
-        
-        //echo $resp;
-        
-        // GET ALL TAGS
-        //foreach (Tag::all() as $tag){
-            //echo '<div style="background-color:#2bf6b1;margin: 2px; padding: 2px; float: left;">
-            //        <input
-            //          style=" height: 14px;"
-            //                  type="checkbox"
-            //                  name="habit-tags[]"
-            //                  value="' . $tag->id . '">' . $tag->name
-            //    .'</div>';
-//echo $tag->id . ' - '.$tag->name .'<br />';
-        //}
-        // GET ALL 
-        
-        $habtags = HabitTag::where('fieldhabit_id', $request->input('fieldhabit_id'))->get();
-        
-        //print_r($habtags);
-        //echo '</ br>';
-        
-        foreach ( $habtags as $htg) {
-            $htg->getHabit;
-            print_r($htg);
-            //echo $htg->id . ' - '.$htg->getHabit->name .'<br />';
-        }
-        
-        return;
-        //$logs = Dotilog::all();
-        //
-        //foreach($logs as $l) {
-        //    echo $l->id;
-        //}
-        
-        //return $resp;
+        return $resp;
     }
     
     

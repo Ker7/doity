@@ -30,7 +30,8 @@ class CreateDotilogsTable extends Migration
             $table->boolean('is_counting')->default(false);
             
             $table->text('comment')->nullable();
-            $table->text('ip_address')->nullable()->default(null);
+            $table->text('ip_address')->nullable()->default(null)->comment('When staring job');  //When staring job
+            $table->text('ip_address2')->nullable()->default(null)->comment('When ending job'); //When ending job
             
             $table->timestamps();
             /* @todo Custom attachments (-> Images, files w/e */

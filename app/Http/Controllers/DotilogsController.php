@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Dotilog;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class DotilogsController extends Controller
 {
     /**
@@ -62,7 +65,7 @@ class DotilogsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update by admin, log record.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Dotilog  $dotilog
@@ -70,8 +73,9 @@ class DotilogsController extends Controller
      */
     public function update(Request $request, $val)//Dotilog $dotilog)
     {
-        //print_r($val);
-        
+        echo "DotilogsCOntroller.php@update";
+        print_r($request->input());
+        return ;
         //$request->input('date_log')
         //$request->input('time_log')
         //$request->input('date_log2')
@@ -100,7 +104,84 @@ class DotilogsController extends Controller
                     'form_reflect_habits' => $request->input('form_reflect_habits'),
                     ]);
     }
+/**
+     * Finish tracking a log record.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Dotilog  $dotilog
+     * @return \Illuminate\Http\Response
+     */
+    public function start(Request $request)//Dotilog $dotilog)
+    {
+        // IF singular habit tracking then close others. Open logs variable is in Form, multiple incase value is changed.
+        if (config('doti-settings.single-habit-tracking')) {
+            $multiple_open_logs = explode(',', str_replace(' ', '', $request->input('open_logs')));
+            foreach($multiple_open_logs as $num) {
+                if ( (int)$num == $num && (int)$num > 0 ){
+                    $this->finishALog($request, $num);
+                }
+            }
+        }
+        
+        $log = new Dotilog;
 
+        $log->fieldhabit_id = $request->input('form-track-habits');
+        $log->date_log = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
+        $log->time_log = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
+        $log->is_counting = 1;
+        $log->ip_address = $request->input('ip_address');
+        $log->save();
+        
+        return redirect()->action('TrackController@index');
+        //return;
+    }
+    
+    /**
+     * Finish tracking a log record.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Dotilog  $dotilog
+     * @return \Illuminate\Http\Response
+     */
+    public function finish(Request $request, $val)//Dotilog $dotilog)
+    {
+        //$log = Dotilog::where('id', $val)->first();
+        //
+        //$log->date_log2 = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
+        //$log->time_log2 = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
+        //
+        //$secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
+        //$hours = $secondsPassedUntilNow/3600;
+        //
+        //$log->value_decimal = $hours;
+        //$log->is_counting = 0;
+        //$log->save();
+        
+        $this->finishALog($request, $val);
+        
+        return redirect()->action('TrackController@index');
+    }
+        /*
+         * @param FHabit id
+         */
+    private function finishALog(Request $request, $val)//Dotilog $dotilog)
+    {
+        $log = Dotilog::where('id', $val)->first();
+
+        $log->date_log2 = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
+        $log->time_log2 = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
+        
+        $secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
+        $hours = $secondsPassedUntilNow/3600;
+        
+        $log->value_decimal = $hours;
+        $log->is_counting = 0;
+        $log->ip_address2 = $request->input('ip_address');
+        
+        $log->save();
+        
+        return ;
+    }
     /**
      * Remove the specified resource from storage.
      *

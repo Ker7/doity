@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 //Route::get('/', function () {
 //    return view('home');
 //});
@@ -49,9 +48,11 @@ Route::get('/test', 'testController@index');
 // New approach!
 Route::resource('field', 'FieldController');
 Route::resource('userfield', 'UserFieldsController');
-//Route::resource('logs', 'DotilogsController');
-Route::resource('logs', 'DotilogsController', ['parameters' => [
-    'index' => 'filter'
-]]);
+Route::put('logs/start', 'DotilogsController@start' )->name('logs.start');
+Route::patch('logs/finish/{id}', 'DotilogsController@finish' )->name('logs.finish');
+Route::resource('logs', 'DotilogsController');
+//Route::resource('logs', 'DotilogsController', ['parameters' => [
+//    'index' => 'filter'
+//]]);
 
 Route::patch('/home', 'HomeController@postIndex' );

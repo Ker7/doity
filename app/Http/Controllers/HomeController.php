@@ -117,15 +117,22 @@ class HomeController extends Controller
         $dotiLogs = array();        //a record of data
         $userSelect = array();      // array of user-id => name's
         
-        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 7 );
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
+        $is_mode = ( User::where('id', Auth::id())->first()->privilege >= 5 );
 
         $get_field_id = Input::get('form_reflect_field');   //If set then use it to display default option in form
         $get_habit_id = Input::get('form_reflect_habits');
         $get_user_id = Input::get('uid');
         
         //IF HAVE Privilege 8+ then can sort by users as well
-        if ($is_admin && null !== $get_user_id) {
-            $lookup_user_id = $get_user_id;
+        if ($is_admin) {
+            if( null !== $get_user_id) {
+                $lookup_user_id = $get_user_id;     // IF admin wanted a specific USER
+            } elseif ( null == $get_user_id &&  null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
+                
+            } else {
+                $lookup_user_id = Auth::id();       // IF just entered the page
+            }
         } else {
             $lookup_user_id = Auth::id();
         }
@@ -185,7 +192,7 @@ class HomeController extends Controller
             $dotiLogs[] = Dotilog::where('fieldhabit_id', $fh->id)
                                     ->where('date_log', '>=', $date_later_than)
                                     ->where('date_log', '<=', $date_less_than)
-                                    ->orderBy('date_log', 'desc')
+                                    ->orderBy('created_at', 'desc')
                                     ->get();
           }
         }

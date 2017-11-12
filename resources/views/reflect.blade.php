@@ -51,11 +51,11 @@
                         </div>
                             
                         <div class="col-sm-4"><h3></h3>
-                            
+                            <sup>If by person, the first submit person name</sup>
                             @if ($is_admin)
                                 <select class="reflect-date" name="uid" id="uid">
                                     @if (empty($get_field_id))
-                                        <option value="">-field-</option>
+                                        <option value="">-user-</option>
                                     @else
                                         <option value="">-show all-</option>
                                     @endif
@@ -83,7 +83,7 @@
                         <div class="col-sm-4"><h3>What?</h3></div>
                         <div class="col-sm-4"><h3>Quantity?</h3>
                             @if ($is_admin)
-                                <span style="float: right;" onClick="jQuery('.form-edit-dotilog').toggle()">☇ Edit mode</span>
+                                <span style="float: right; cursor: pointer;" onClick="jQuery('.form-edit-dotilog').toggle()">☇ Edit mode</span>
                             @endif
                         </div>
                     </div>
@@ -95,6 +95,9 @@
                                     {{ $dlog->created_at }}
                                 </div>
                                 <div class="col-sm-4">
+                                    @if ($is_admin)
+                                        {{ $dlog->getFieldHabit->getUserField->getUser->name }}
+                                    @endif
                                     {{ $dlog->getFieldHabit->getHabit->name }}
                                 </div>
                                 <div class="col-sm-4">
