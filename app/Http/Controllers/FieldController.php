@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Field;
 use App\UserField;
 use Illuminate\Http\Request;
@@ -47,11 +48,19 @@ class FieldController extends Controller
         $field->save();
         
         // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
-        
-        $userField = new UserField;
-        $userField->user_id = Auth::user()->id;
-        $userField->field_id = $field->id;
-        $userField->save();
+        if (config('doti-settings.admin-adds-global-fields-to-all-users')) {
+            foreach(User::all() as $user ){
+                $userField = new UserField;
+                $userField->user_id = $user->id;
+                $userField->field_id = $field->id;
+                $userField->save();
+            }
+        } else {
+            $userField = new UserField;
+            $userField->user_id = Auth::user()->id;
+            $userField->field_id = $field->id;
+            $userField->save();
+        }
         
         return redirect()->action('HomeController@index');
         //return HomeController->index();

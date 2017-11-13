@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\UserField;
 use App\FHabit;
 use App\Tag;
 use App\HabitTag;
 use App\Dotilog;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserFieldsController extends Controller
 {
@@ -27,13 +30,17 @@ class UserFieldsController extends Controller
      */
     public function ajaxGetFieldHabits(Request $request)
     {
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         // Ajax request gives the requested UserField ID
         $uf = $request->input('userfield_id');
         // Now we gonna find all this UserField's habits
-        $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        if ($is_admin) {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        } else {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->where('active', 1)->get();
+        }
         foreach ($habits as $habit) {
             $habit->getHabit->name;
-            //$habit->uusVaartus = 'jouu'; //This way I can add new values
         }
         $data = [
             "habits" => $habits
@@ -44,11 +51,16 @@ class UserFieldsController extends Controller
     // Trackimise lehel dropdown valides tuleb ajax req siia et saada habitite nimed
     public function ajaxTrackerGetFieldHabits(Request $request)
     {
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         // Ajax request gives the requested UserField ID
         $uf = $request->input('userfield_id');
         
         // Now we gonna find all this UserField's habits
-        $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        if ($is_admin) {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        } else {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->where('active', 1)->get();
+        }
         
         //$names = "";
         $data = "";
@@ -63,11 +75,16 @@ class UserFieldsController extends Controller
     // Reflectimisel saad valida, erineb ülemisest, sest näitab logide counti
     public function ajaxReflectorGetFieldHabits(Request $request)
     {
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         // Ajax request gives the requested UserField ID
         $uf = $request->input('userfield_id');
         
         // Now we gonna find all this UserField's habits
-        $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        if ($is_admin) {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->get();
+        } else {
+            $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->where('active', 1)->get();
+        }
         
         //$names = "";
         $data = "";

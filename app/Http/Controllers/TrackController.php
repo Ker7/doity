@@ -90,41 +90,31 @@ class TrackController extends Controller
     }
     
     private function timerTracking() {
-        
-        echo "tere";
-echo (config('doti-settings.single-habit-tracking')?"webRouter":"not");
-
         // get User
         $user = User::where('id', Auth::id())->first();
-
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         // get User Fields
         $uf = UserField::where('user_id', Auth::id())->get();
         
         $newLog = new Dotilog;
-
         $habb = array();    //User Field Habits
         
         // get each UserFields User Habit       
         foreach($uf as $userfields){
-            $habb[] = $userfields->getFieldHabits;
+            if ($is_admin){
+                $habb[] = $userfields->getFieldHabits;
+            } else {
+                $habb[] = $userfields->getFieldActiveHabits;
+            }
         }
         
         $openLogs = array();
-        //print_r($habb);
-        //print_r('----------------');
-        foreach($habb as $ab){
-            //print_r($ab);
-            //print_r('---###---');
+        foreach($habb as $ab){      //FieldHabits is nested within Fields, go deeper...
             foreach($ab as $a){
-                //print_r($a);
                 $openLogs[] = Dotilog::where('fieldhabit_id', $a->id)->where('is_counting', true)->get();
             }
         }
-    
-        //print_r('---###---');
-        //print_r($openLogs);
-        //print_r('---#0#---');
-        
+
         $data = [ 'newLog' => $newLog,
                   'userFields' => $uf,
                   'nowDate' => Carbon::now()->timezone('Europe/Tallinn')->format('m/d/Y'),

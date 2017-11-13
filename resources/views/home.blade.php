@@ -61,13 +61,6 @@
                     {{-- With $userFields var from HomeController@index --}}
                     @include('doti-field-rows')
                     
-                    {{-- @if (count($userFieldsUnactive) > 0) --}}
-                    
-                        {{-- With $userFieldsUnactive var from HomeController@index --}}
-                        
-                    {{--    @include('doti-field-rows-unactives')
-                    @endif --}}
-                    
                     </div>
                         
                     <div id="habits-block" style="display: inline-block;width:50%"></div>

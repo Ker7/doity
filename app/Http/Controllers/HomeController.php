@@ -41,17 +41,27 @@ class HomeController extends Controller
      */ 
     public function index()
     {
+        $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
+        
         $newField = new Field;
         $newHabit = new Habit;
-        //$field->name = 'Jukimuki';
-
-        $data = array(
-            'userFields' => UserField::where('user_id', Auth::id())
+        
+        if ($is_admin) {
+            $fields = UserField::where('user_id', Auth::id())
+                                        ->get();
+        } else {
+            $fields = UserField::where('user_id', Auth::id())
                                         ->where('active', true)         //Retrieve only active fields
-                                        ->get(),
-            'userFieldsUnactive' => UserField::where('user_id', Auth::id())
-                                        ->where('active', false)         //Retrieve nonactive fields
-                                        ->get(),
+                                        ->get();
+        }
+        
+        
+        
+        $data = array(
+            'userFields' => $fields,
+            //'userFieldsUnactive' => UserField::where('user_id', Auth::id())
+            //                            ->where('active', false)         //Retrieve nonactive fields
+            //                            ->get(),
             'openField'  => Input::get('field_id'),
             'specialWelcome' => $this->getWelcomeMessage(),
             'newField' => $newField,
@@ -124,71 +134,155 @@ class HomeController extends Controller
         $get_habit_id = Input::get('form_reflect_habits');
         $get_user_id = Input::get('uid');
         
-        //IF HAVE Privilege 8+ then can sort by users as well
+        //$date_later_than = Carbon::now()->subDays(8);   //DEFAULT value
+        //$date_less_than = Carbon::now();                //DEFAULT value
+
+        $date_later_than = ( null !== Input::get('dtf') ? Carbon::parse(Input::get('dtf')) : Carbon::now()->subDays(8));
+        $date_less_than = ( null !== Input::get('dtt') ? Carbon::parse(Input::get('dtt')) : Carbon::now());
+
+        $lookup_user_id = -1;
+//IF HAVE Privilege 8+ then can sort by users as well
+echo "e1";
         if ($is_admin) {
-            if( null !== $get_user_id) {
+echo "e2";
+        $userSelect = User::where('privilege', '<', 8)->get();
+            if(null !== $get_user_id) {
+echo "e3";
                 $lookup_user_id = $get_user_id;     // IF admin wanted a specific USER
-            } elseif ( null == $get_user_id &&  null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
-                
+                $userFields = UserField::where('user_id', $lookup_user_id)  //on both cases!
+                    ->get();
+                if (null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
+echo "e4";
+
+                    //$lookup_user_id = -1;
+                } else {
+echo "e5";                    
+                }
+echo "e6";
+            //$lookup_user_id = -1;       // all users
+            } elseif (null !== $get_habit_id) {
+echo "e7";
+                $userFields = $this->getRegularUserFields();
             } else {
-                $lookup_user_id = Auth::id();       // IF just entered the page
+//Admin, no user no habit, blank page? Error?
+echo "e7.5";
+            //$lookup_user_id = Auth::id();
             }
         } else {
-            $lookup_user_id = Auth::id();
-        }
-        $userSelect = User::where('privilege', '<', 8)->get();
-        
-        $user       = User::where('id', $lookup_user_id)->first();
-
-        $date_later_than = Carbon::now()->subDays(8);   //DEFAULT value
-        $date_less_than = Carbon::now();                //DEFAULT value
-        
-
-        
-        if ( null !== Input::get('dtf')) {
-            $date_later_than = Carbon::parse(Input::get('dtf'));
-        }
-        if ( null !== Input::get('dtt')) {
-            $date_less_than = Carbon::parse(Input::get('dtt'));
+echo "e8";
+            $userFields = UserField::where('user_id', Auth::id())  //on both cases!
+                    ->get();
+            if (null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
+echo "e9";
+            } else {
+echo "e10"; 
+            }
         }
 
-        //@@todo, viia User klassi? Viidud suur osa.
-        $user = User::where('id', $lookup_user_id)->firstOrFail();
-        $userFields = UserField::where('user_id', $lookup_user_id)
-                                        ->where('active', true)
-                                        ->get();
-                                        
-        // IF it is said in GET parameter what fields then use that
+
+
+
+////IF HAVE Privilege 8+ then can sort by users as well
+////echo "1
+//        if ($is_admin) {
+////echo "2";
+//            if( null !== $get_user_id) {
+////echo "3";
+//                $lookup_user_id = $get_user_id;     // IF admin wanted a specific USER
+//            } elseif ( null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
+////echo "4";
+//                $lookup_user_id = -1;
+//            } else {
+////echo "6";
+//                $lookup_user_id = -1;       // all users
+//            }
+//        } else {
+////echo "7";
+//            $lookup_user_id = Auth::id();
+//        }
+//        $userSelect = User::where('privilege', '<', 8)->get();
+//        
+////echo "8";
+
+        //$user       = User::where('id', $lookup_user_id)->first();
+//        if ($is_admin){
+//            if ($lookup_user_id == -1) {
+//                $userFields = $this->getRegularUserFields();
+////foreach($userFields as $uf) {
+////    echo ';'.$uf->id.';';
+////}
+//            } else {
+//                $userFields = UserField::where('user_id', $lookup_user_id)
+//                                        ->get();
+//                }
+//        } else {
+//            $userFields = UserField::where('user_id', $lookup_user_id)
+//                                        ->where('active', true)
+//                                        ->get();
+//        }
+        
+// ############ LOOKUP USER ID no more
+
+         //IF it is said in GET parameter what fields then use that
         if ( null !== Input::get('form_reflect_field')) {
-            $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
+            if ($is_admin){
+                $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
+                                            ->get();
+            } else {
+                $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
                                             ->where('active', true)
                                             ->get();
+            }
         } else {
             $userFieldsToForm = $userFields;
         }
+        
+        
         $unique_habits = array(); //for filtering ID-> name, of all projects (attached to self user!) @@todo attach projects to usersby admin
                      
         foreach ($userFieldsToForm as $uf){
             //After page load habits are loaded for selection
             if ( null !== Input::get('form_reflect_field')) {
-                $unique_habits[] = FHabit::where('userfield_id', Input::get('form_reflect_field'))->where('internal', false)->withCount('getLogs')->get();
+                $unique_habits[] = FHabit::where('userfield_id', Input::get('form_reflect_field'))
+                                    ->where('internal', false)
+                                    ->withCount('getLogs')->get();
+            }
+            
+            if ($is_admin) {
+                if (null !== Input::get('form_reflect_habits')) {
+                    $fieldHabits[0] = FHabit::where('id', Input::get('form_reflect_habits'))
+                                    ->where('internal', 0)
+                                    ->get();
+                } else {
+                    $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
+                                    ->where('internal', 0)
+                                    ->get();
+                }
+            } else {
+                if (null !== Input::get('form_reflect_habits')) {
+                    $fieldHabits[] = FHabit::where('id', Input::get('form_reflect_habits'))
+                                    ->where('active', true)
+                                    ->where('internal', 0)
+                                    ->get();
+                } else {
+                    $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
+                                    ->where('active', true)
+                                    ->where('internal', 0)
+                                    ->get();
+                }
             }
 
-            // If Project is defined! @@todo multiple select siia..
-            if ( null !== Input::get('form_reflect_habits')) {
-                $fieldHabits[] = FHabit::where('id', Input::get('form_reflect_habits'))
-                                    ->where('active', true)
-                                    ->get();
-            } else {
-                $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
-                                    ->where('active', true)
-                                    ->get();
-            }
+//if ($is_admin){
+//} else {
+//}
+
         }
         
         /*   Seda kasutab. ajapiiramised ?!?! */
-        foreach ($fieldHabits as $fhh){
-          foreach ($fhh as $fh){
+        foreach ($fieldHabits as $kk => $fhh){
+//echo ' ¤kk-'.$kk;            
+          foreach ($fhh as $ll => $fh){
+//echo ' #ll-'.$ll;         
             $dotiLogs[] = Dotilog::where('fieldhabit_id', $fh->id)
                                     ->where('date_log', '>=', $date_later_than)
                                     ->where('date_log', '<=', $date_less_than)
@@ -209,6 +303,8 @@ class HomeController extends Controller
         $data['is_admin'] = $is_admin;
         $data['userSelect'] = $userSelect;
 
+        //print_r($dotiLogs);
+        
         return view('reflect', $data);
     }
     
@@ -259,5 +355,14 @@ class HomeController extends Controller
             'I\'m so happy to see you here! Though I\'m just a piece of code :\')
             ');
         return $w[Rand(0,count($w) - 1)];
+    }
+    
+    private function getRegularUserFields() {
+        $users_na = array();
+        foreach (User::where('privilege', '<', '8')->get() as $uis){
+            $users_na[] = $uis->id;
+//echo "*".$uis->id."*";
+        }
+        return UserField::whereIn('user_id', $users_na)->get();
     }
 }

@@ -80,6 +80,13 @@ class UserField extends Model
         //$habitsb = $this->getHabits()->getQuery()->orderBy('date_log', 'ASC')->get();
         return $habitsb;
     }
+    public function getFieldActiveHabits()
+    {                                       // tegelt peaks olema siin mille habit on "_log"
+        //return $this->hasMany('App\FHabits', 'userfield_id', 'id')->where('internal', '=', 1);
+        $habitsb =  $this->hasMany('App\FHabit', 'userfield_id', 'id')->where('active', '=', 1);
+        //$habitsb = $this->getHabits()->getQuery()->orderBy('date_log', 'ASC')->get();
+        return $habitsb;
+    }
     
     // Ei oska niimoodi piirata päringut siinsama, peab vist kontrolleris
     //

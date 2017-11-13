@@ -73,9 +73,9 @@ class DotilogsController extends Controller
      */
     public function update(Request $request, $val)//Dotilog $dotilog)
     {
-        echo "DotilogsCOntroller.php@update";
-        print_r($request->input());
-        return ;
+        echo "DotilogsController.php@update";
+        //print_r($request->input());
+        //return ;
         //$request->input('date_log')
         //$request->input('time_log')
         //$request->input('date_log2')
@@ -171,8 +171,10 @@ class DotilogsController extends Controller
         $log->date_log2 = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
         $log->time_log2 = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
         
-        $secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
-        $hours = $secondsPassedUntilNow/3600;
+        //$secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
+        //$hours = $secondsPassedUntilNow/3600;
+        
+        $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
         
         $log->value_decimal = $hours;
         $log->is_counting = 0;
@@ -191,5 +193,19 @@ class DotilogsController extends Controller
     public function destroy(Dotilog $dotilog)
     {
         //
+    }
+    
+    /* Calculates the time difference.
+     * @@todo calculate holy lunch here! By config values
+     *
+     */
+    private function calculateHoursDifference($datetimeFrom, $datetimeTo) {
+        
+        $d_from = $datetimeFrom;
+        $d_to = $datetimeTo;
+        
+        $hours = Carbon::parse($d_from)->diffInSeconds(Carbon::parse($d_to))/3600;
+        
+        return $hours;
     }
 }

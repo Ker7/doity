@@ -51,8 +51,8 @@
                         </div>
                             
                         <div class="col-sm-4"><h3></h3>
-                            <sup>If by person, the first submit person name</sup>
                             @if ($is_admin)
+                            <sup>If by person, the first submit person name</sup>
                                 <select class="reflect-date" name="uid" id="uid">
                                     @if (empty($get_field_id))
                                         <option value="">-user-</option>
@@ -109,7 +109,7 @@
 
 <!-- Trigger the modal with a button -->
                                             <button type="button" style="display: none" class="form-edit-dotilog btn btn-custom btn-success" data-toggle="modal" data-target="#field-edit-log-{{ $dlog->id }}">
-                                            <i class="fa fa-btn fa-edit"></i></button>
+                                            <i class="fa fa-btn fa-edit"></i>{{ $dlog->id }}</button>
                                             
                                             <!-- Modal -->
                                             <div id="field-edit-log-{{ $dlog->id }}" class="modal fade" role="dialog">

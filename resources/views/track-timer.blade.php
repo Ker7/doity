@@ -33,7 +33,7 @@
                                     <option value="{{ $userFields[0]->id }}">{{ $userFields[0]->getField->name }}</option>
                                   </select>
                                   <select name="form-track-habits" id="form-track-habits">
-                                  @foreach ($userFields[0]->getFieldHabits as $ufhs)
+                                  @foreach ($userFields[0]->getFieldActiveHabits as $ufhs)
                                       <option value="{{ $ufhs->id }}">{{ $ufhs->getHabit->name }}</option>
                                   @endforeach
                                   </select>
