@@ -7,6 +7,8 @@ use App\FHabit;
 use App\Habit;
 use App\UserField;
 
+use App\Http\Traits\BinderTrait;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class FHabitController extends Controller
 {
+    use BinderTrait;
     /**
      * Display a listing of the resource.
      *
@@ -63,28 +66,30 @@ class FHabitController extends Controller
             // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
         if (config('doti-settings.admin-adds-global-fields-to-all-users')) {
             foreach(UserField::where('field_id', UserField::where('id', $user_field)->get()[0]->field_id)->get() as $userfields ){
-                $newFHabit = new FHabit;        // new Field Habit
-                $newFHabit->userfield_id = $userfields->id;
-                $newFHabit->habit_id = $newHabit->id;
-                $newFHabit->internal = 0;
-                $newFHabit->unit_id = 1;        // 1 - placeholder for decimal! 2-time, 3-percentage
-                $newFHabit->unit_name = $request->input('unit_name');
-                $newFHabit->active = 1;
-                $newFHabit->public = 0;
-                $newFHabit->comment = $request->input('comment');
-                $newFHabit->save();
+                //$newFHabit = new FHabit;        // new Field Habit
+                //$newFHabit->userfield_id = $userfields->id;
+                //$newFHabit->habit_id = $newHabit->id;
+                //$newFHabit->internal = 0;
+                //$newFHabit->unit_id = 1;        // 1 - placeholder for decimal! 2-time, 3-percentage
+                //$newFHabit->unit_name = $request->input('unit_name');
+                //$newFHabit->active = 1;
+                //$newFHabit->public = 0;
+                //$newFHabit->comment = $request->input('comment');
+                //$newFHabit->save();
+                $this->addFieldHabit($userfields->id, $newHabit->id, $request->input('unit_name'), $request->input('comment'));
             }
         } else {
-            $newFHabit = new FHabit;        // new Field Habit
-            $newFHabit->userfield_id = $user_field;
-            $newFHabit->habit_id = $newHabit->id;
-            $newFHabit->internal = 0;
-            $newFHabit->unit_id = 1;        // 1 - placeholder for decimal! 2-time, 3-percentage
-            $newFHabit->unit_name = $request->input('unit_name');
-            $newFHabit->active = 1;
-            $newFHabit->public = 0;
-            $newFHabit->comment = $request->input('comment');
-            $newFHabit->save();
+            //$newFHabit = new FHabit;        // new Field Habit
+            //$newFHabit->userfield_id = $user_field;
+            //$newFHabit->habit_id = $newHabit->id;
+            //$newFHabit->internal = 0;
+            //$newFHabit->unit_id = 1;        // 1 - placeholder for decimal! 2-time, 3-percentage
+            //$newFHabit->unit_name = $request->input('unit_name');
+            //$newFHabit->active = 1;
+            //$newFHabit->public = 0;
+            //$newFHabit->comment = $request->input('comment');
+            //$newFHabit->save();
+            $this->addFieldHabit($user_field, $newHabit->id, $request->input('unit_name'), $request->input('comment'));
         }
         
         return redirect()->action('HomeController@index');

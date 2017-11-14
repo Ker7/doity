@@ -92,6 +92,11 @@ class DotilogsController extends Controller
         $log->time_log2 = $request->input('time_log2');
         $log->is_counting = $request->input('is_counting');
         
+        $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
+        $log->value_decimal = ( (null !== $request->input('value_decimal')) ? $request->input('value_decimal') : $hours );
+        //echo (null !== $request->input('value_decimal') ? 'decimal_set' : 'nok');
+        
+        
         $log->save();
         //print_r($log);
         //echo 'Dotilog@update, id:'.$dotilog->id;
@@ -176,7 +181,8 @@ class DotilogsController extends Controller
         
         $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
         
-        $log->value_decimal = $hours;
+        $log->value_decimal = $hours ;
+        
         $log->is_counting = 0;
         $log->ip_address2 = $request->input('ip_address');
         

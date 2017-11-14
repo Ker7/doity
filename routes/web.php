@@ -55,4 +55,7 @@ Route::resource('logs', 'DotilogsController');
 //    'index' => 'filter'
 //]]);
 
+
+Route::patch('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
+
 Route::patch('/home', 'HomeController@postIndex' );

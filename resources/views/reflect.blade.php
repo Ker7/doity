@@ -13,48 +13,18 @@
                 <div class="panel-body">
                     <div class="row">
                       {{ Form::open(['method' => 'GET']) }}
-                        <div class="col-sm-4"><h3>Time::Filter</h3>
+                        <div class="col-sm-4"><h3>Time period</h3>
                             {{ Form::date('dtf', $date_later_than, ['class' => 'reflect-date']) }} -
                             {{ Form::date('dtt', $date_less_than, ['class' => 'reflect-date']) }}
                         </div>
-                        <div class="col-sm-4"><h3>Project::Filter</h3>
-                            <select class="reflect-date" name="form_reflect_field" id="form-reflect-field">
-                                @if (empty($get_field_id))
-                                    <option value="">-field-</option>
-                                @else
-                                    <option value="">-show all-</option>
-                                @endif
-                                @foreach ($userFields as $k => $u)
-                                    <option
-                                        name="key::{{$k}}"
-                                        value="{{ $u->id }}"
-                                            @if ($get_field_id == $u->id)
-                                                selected 
-                                            @endif
-                                        >{{ $u->getField->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <select class="reflect-date" name="form_reflect_habits" id="form-reflect-habits">
-                                @foreach ($unique_habits as $kk => $uu)
-                                    @foreach ($uu as $k => $u)
-                                        <option
-                                            value="{{ $u->id }}"
-                                                @if ($get_habit_id == $u->id)
-                                                    selected 
-                                                @endif
-                                            >{{ $u->getHabit->name }} ({{ $u->get_logs_count }})
-                                        </option>
-                                    @endforeach
-                                @endforeach
-                            </select>
+                        <div class="col-sm-4">
                         </div>
                             
                         <div class="col-sm-4"><h3></h3>
                             @if ($is_admin)
                             <sup>If by person, the first submit person name</sup>
                                 <select class="reflect-date" name="uid" id="uid">
-                                    @if (empty($get_field_id))
+                                    @if (empty($get_uid))
                                         <option value="">-user-</option>
                                     @else
                                         <option value="">-show all-</option>
@@ -70,6 +40,22 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <select class="reflect-date" name="hid" id="hid">
+                                @if (empty($get_hid))
+                                    <option value="">-habit-</option>
+                                @else
+                                    <option value="">-show all-</option>
+                                @endif
+                                @foreach ($all_habits as $kk => $u)
+                                    <option
+                                        value="{{ $u->id }}"
+                                            @if ($get_hid == $u->id)
+                                                selected
+                                            @endif
+                                        >{{ $u->name }}
+                                    </option>
+                                @endforeach
+                                </select>
                             @endif
                             
                             {{ Form::submit() }}
@@ -79,11 +65,12 @@
                     </div>
                 
                     <div class="row">
-                        <div class="col-sm-4"><h3>When?</h3></div>
-                        <div class="col-sm-4"><h3>What?</h3></div>
-                        <div class="col-sm-4"><h3>Quantity?</h3>
+                        <div class="col-sm-4"><h3>When</h3></div>
+                        <div class="col-sm-4"><h3>Activity</h3></div>
+                        <div class="col-sm-4"><h3>Quantity</h3>
                             @if ($is_admin)
-                                <span style="float: right; cursor: pointer;" onClick="jQuery('.form-edit-dotilog').toggle()">☇ Edit mode</span>
+                                <span style="float: right; cursor: pointer;" onClick="jQuery('.form-edit-dotilog').toggle()">☇-Edit</span>
+                                <span style="float: right; cursor: pointer;" onClick="jQuery('.form-ip-dotilog').toggle()">☇-Spy</span>
                             @endif
                         </div>
                     </div>
@@ -92,11 +79,15 @@
                         @foreach ($dls as $dlog)
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {{ $dlog->created_at }}
+                                    {{ $dlog->created_at }}@if ($is_admin)
+                                    <div class="form-ip-dotilog">{{ $dlog->ip_address }} - {{ $dlog->ip_address2 }}</div>
+                                         @endif
                                 </div>
                                 <div class="col-sm-4">
                                     @if ($is_admin)
                                         {{ $dlog->getFieldHabit->getUserField->getUser->name }}
+                                        {{-- $dlog->getFieldHabit->getUserField->id }}:
+                                        {{ $dlog->getFieldHabit->getHabit->id --}}
                                     @endif
                                     {{ $dlog->getFieldHabit->getHabit->name }}
                                 </div>
@@ -108,7 +99,7 @@
                                             {{ Form::close() }}
 
 <!-- Trigger the modal with a button -->
-                                            <button type="button" style="display: none" class="form-edit-dotilog btn btn-custom btn-success" data-toggle="modal" data-target="#field-edit-log-{{ $dlog->id }}">
+                                            <button type="button" class="form-edit-dotilog btn btn-custom btn-success" data-toggle="modal" data-target="#field-edit-log-{{ $dlog->id }}">
                                             <i class="fa fa-btn fa-edit"></i>{{ $dlog->id }}</button>
                                             
                                             <!-- Modal -->
@@ -152,11 +143,12 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                      Value (hours): {{ $dlog->value_decimal }}<br>
+                                                      Value: <strong>{{ $dlog->value_decimal }} {{ $dlog->getFieldHabit->unit_name }}</strong><sup>NB! Correcting value here overwrites the time calculator!</sup><br> 
+                                                      {!! Form::number('value_decimal', '', ['class' => 'form-control']) !!}
                                                       IP: {{ $dlog->ip_address }}
                                                     </div>
                                                     <div class="form-group" style="width: 100px;">
-                                                      {!! Form::label('is_counting', 'In work at the moment (0/1)') !!}
+                                                      {!! Form::label('is_counting', 'Timer ON (0/1)') !!}
                                                       {!! Form::number('is_counting', $dlog->is_counting, ['class' => 'form-control']) !!}
                                                     </div>
                                                   </div>

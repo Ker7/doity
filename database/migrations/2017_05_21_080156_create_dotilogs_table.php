@@ -24,7 +24,7 @@ class CreateDotilogsTable extends Migration
             $table->text('tag_ids')->nullable();
             
               /* Idee on kõikide andmete salvestamiseks kasutada decimali DB's */
-            $table->decimal('value_decimal', 12, 2)->nullable();
+            $table->decimal('value_decimal', 12, 2)->nullable()->default(0);
             //$table->integer('value_int');
             //$table->integer('value_time');
             $table->boolean('is_counting')->default(false);

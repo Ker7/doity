@@ -8,15 +8,8 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-
-                
-                <!--<a href="#" style="color:#fff;"><i class="fa fa-btn fa-clone"></i>New Field</a>-->
                     {{ Auth::user()->name }}, This is the tracking page.
                 </div>
- 
-<!--                <div id="main-message-div" class="panel-body">
-                    You are logged in!
-                </div>-->
                     
                 <div class="panel-body">
                 
@@ -26,6 +19,7 @@
                         <div class="col-sm-4"><h3>When?</h3></div>
                     </div>
                 
+
                     {{ Form::open() }}
                     <div class="row">
                         <div class="col-sm-4">

@@ -93,3 +93,6 @@ body, .btn-link {
     padding: 0px 2px;
     height: 20px;
 }
+.form-edit-dotilog, .form-ip-dotilog {
+    display: none; /* hidden by default */
+}

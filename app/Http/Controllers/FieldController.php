@@ -8,11 +8,13 @@ use App\UserField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+use App\Http\Traits\BinderTrait;
 
 use Illuminate\Support\Facades\Redirect;
 
 class FieldController extends Controller
 {
+    use BinderTrait;
     /**
      * Display a listing of the resource.
      *
@@ -50,24 +52,13 @@ class FieldController extends Controller
         // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
         if (config('doti-settings.admin-adds-global-fields-to-all-users')) {
             foreach(User::all() as $user ){
-                $userField = new UserField;
-                $userField->user_id = $user->id;
-                $userField->field_id = $field->id;
-                $userField->save();
+                $this->addUserField($user->id, $field->id);
             }
         } else {
-            $userField = new UserField;
-            $userField->user_id = Auth::user()->id;
-            $userField->field_id = $field->id;
-            $userField->save();
+            $this->addUserField(Auth::user()->id, $field->id);
         }
         
         return redirect()->action('HomeController@index');
-        //return HomeController->index();
-        
-        //return $request->all;
-        //return "FCont@store!".$request->name.' and '.$request->colorForField
-        //    . 'UserID: '. Auth::user()->id;
     }
     /**
      * Store a newly created resource in storage.
@@ -77,16 +68,11 @@ class FieldController extends Controller
      */
     public function testStore()
     {
-        $field = new Field;
-        $field->name = 'test123';
-        $field->color = '#123acb';
-        //$field->
-        $field->save();
-        
-        
-        //return $request->all;
-        //return "FCont@store!".$request->name.' and '.$request->colorForField
-        //    . 'UserID: '. Auth::user()->id;
+        //$field = new Field;
+        //$field->name = 'test123';
+        //$field->color = '#123acb';
+        //$field->save();
+
     }
 
     /**
