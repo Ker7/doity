@@ -112,7 +112,7 @@ class HomeController extends Controller
     public function reflect(){
         
         // TESTING PARAMETER SHOW ONLY!! //
-        $this->displayGet();
+        //$this->displayGet();
         //$this->displayMeth();
         // TESTING END //
         
@@ -123,9 +123,6 @@ class HomeController extends Controller
         
         $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         $is_mode = ( User::where('id', Auth::id())->first()->privilege >= 5 );
-
-        $get_field_id = Input::get('form_reflect_field');       // !!TOREMOVE!! If set then use it to display default option in form @@toremoveee bad idea
-        $get_habit_id = Input::get('form_reflect_habits');      // UserFieldHabit id @@Toremove? Or let for users
         
         // For admin
         $get_user_id = Input::get('uid');                       // User id
@@ -134,113 +131,25 @@ class HomeController extends Controller
         $date_later_than = ( null !== Input::get('dtf') ? Carbon::parse(Input::get('dtf')) : Carbon::now()->subDays(8));
         $date_less_than = ( null !== Input::get('dtt') ? Carbon::parse(Input::get('dtt')) : Carbon::now());
 
-        //$lookup_user_id = -1;
-//IF HAVE Privilege 8+ then can sort by users as well
-//echo "e1";
         if ($is_admin) {
-//echo "e2";
         $userSelect = User::where('privilege', '<', 8)->get();      //!Admin gets to selectfrom all usets
             if(null !== $get_user_id) {
-//echo "e3";
-                if (null !== $get_hid) { // IF admin wanted a speficif project and ALL users!
-//echo "e4";
-                    // Get All UFHabit (hid) -> field_id
-                    // Get All UField (uid, field_id)
-                    //$ufhs = FHabit::where('habit_id', $get_hid)->get()->toArray()->pluck('userfield_id');
+                if (null !== $get_hid) { // IF admin wanted a specific project and user!
                     $ufs = FHabit::where('habit_id', $get_hid)->get()->pluck('userfield_id')->toArray();
-                    $userFields = UserField::where('user_id', $get_user_id)->whereIn('id', $ufs)->get();  //TEMP
-//print_r($ufs);
-//print_r($userFields);
-                    //$userFields = UserField::where('user_id', $get_user_id)->get();  //TEMP
-                } else {
-//echo "e5";                    
+                    $userFields = UserField::where('user_id', $get_user_id)->whereIn('id', $ufs)->get();
+                } else {                // IF admin wanted a user!
                     $userFields = UserField::where('user_id', $get_user_id)->get();  //on both cases!
                 }
-//echo "e6";
-            //$lookup_user_id = -1;       // all users
-            } elseif (null !== $get_habit_id) {
-//echo "d7";
+            } else {                    // Admin, no user
                 $userFields = $this->getRegularUserFields();
-            } else {
-//Admin, no user no habit, blank page? Error?
-//echo "d7.5";
-                $userFields = $this->getRegularUserFields();
-            //$lookup_user_id = Auth::id();
             }
-        } else {
-//echo "e8";
+        } else {                        // Not admin, by user
             $userFields = UserField::where('user_id', Auth::id())  //on both cases!
                     ->get();
-            if (null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
-//echo "e9";
-            } else {
-//echo "e10"; 
-            }
         }
 
+        $userFieldsToForm = $userFields;
 
-
-
-////IF HAVE Privilege 8+ then can sort by users as well
-////echo "1
-//        if ($is_admin) {
-////echo "2";
-//            if( null !== $get_user_id) {
-////echo "3";
-//                $lookup_user_id = $get_user_id;     // IF admin wanted a specific USER
-//            } elseif ( null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
-////echo "4";
-//                $lookup_user_id = -1;
-//            } else {
-////echo "6";
-//                $lookup_user_id = -1;       // all users
-//            }
-//        } else {
-////echo "7";
-//            $lookup_user_id = Auth::id();
-//        }
-//        $userSelect = User::where('privilege', '<', 8)->get();
-//        
-////echo "8";
-
-        //$user       = User::where('id', $lookup_user_id)->first();
-//        if ($is_admin){
-//            if ($lookup_user_id == -1) {
-//                $userFields = $this->getRegularUserFields();
-////foreach($userFields as $uf) {
-////    echo ';'.$uf->id.';';
-////}
-//            } else {
-//                $userFields = UserField::where('user_id', $lookup_user_id)
-//                                        ->get();
-//                }
-//        } else {
-//            $userFields = UserField::where('user_id', $lookup_user_id)
-//                                        ->where('active', true)
-//                                        ->get();
-//        }
-        
-// ############ LOOKUP USER ID no more
-
-         //IF it is said in GET parameter what fields then use that
-         // TOREMOVE START
-        //if ( null !== Input::get('form_reflect_field')) {
-        //    if ($is_admin){
-        //        $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
-        //                                    ->get();
-        //    } else {
-        //        $userFieldsToForm = UserField::where('id', Input::get('form_reflect_field'))
-        //                                    ->where('active', true)
-        //                                    ->get();
-        //    }
-        //} else {
-            $userFieldsToForm = $userFields;
-            
-            //print_r( $userFields->pluck('id')->toArray() );
-        //}
-        // TOREMOVE END
-        
-        
         $unique_habits = array(); //for filtering ID-> name, of all projects (attached to self user!) @@todo attach projects to usersby admin
         $all_habits = Habit::where('internal', 0)->get();
                      
@@ -273,62 +182,21 @@ class HomeController extends Controller
                             ->get();
                 }
             } else {
-                //echo $uf->id.',';
                 $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
                         ->where('internal', 0)
                         ->get();
-                if (null !== $get_habit_id) { // IF admin wanted a speficif project and ALL users!
+                if (null !== $get_hid) { // IF admin wanted a speficif project and ALL users!
     //echo "e9";
                 } else {
     //echo "e10"; 
                 }
             }
             
-            //After page load habits are loaded for selection
-            
-            //if ( null !== Input::get('form_reflect_field')) {
-            //    $unique_habits[] = FHabit::where('userfield_id', Input::get('form_reflect_field'))
-            //                        ->where('internal', false)
-            //                        ->withCount('getLogs')->get();
-            //}
-            
-            // TOREM start
-            //if ($is_admin) {
-            //    if (null !== Input::get('form_reflect_habits')) {
-            //        $fieldHabits[0] = FHabit::where('id', Input::get('form_reflect_habits'))
-            //                        ->where('internal', 0)
-            //                        ->get();
-            //    } else {
-            //        $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
-            //                        ->where('internal', 0)
-            //                        ->get();
-            //    }
-            //} else {
-            //    if (null !== Input::get('form_reflect_habits')) {
-            //        $fieldHabits[] = FHabit::where('id', Input::get('form_reflect_habits'))
-            //                        ->where('active', true)
-            //                        ->where('internal', 0)
-            //                        ->get();
-            //    } else {
-            //        $fieldHabits[] = FHabit::where('userfield_id', $uf->id)       // no separate [] add to array is needed, only messes up more arrays
-            //                        ->where('active', true)
-            //                        ->where('internal', 0)
-            //                        ->get();
-            //    }
-            //}
-            // TOREM end
-            
-//if ($is_admin){
-//} else {
-//}
-
         }
         
         /*   Seda kasutab. ajapiiramised ?!?! */
         foreach ($fieldHabits as $kk => $fhh){
-//echo ' ¤kk-'.$kk;            
           foreach ($fhh as $ll => $fh){
-//echo ' #ll-'.$ll;         
             $dotiLogs[] = Dotilog::where('fieldhabit_id', $fh->id)
                                     ->where('date_log', '>=', $date_later_than)
                                     ->where('date_log', '<=', $date_less_than)
@@ -340,9 +208,8 @@ class HomeController extends Controller
         $data['date_later_than'] = $date_later_than;
         $data['date_less_than'] = $date_less_than;
         $data['userFields'] = $userFields;
+        
         $data['get_user_id'] = $get_user_id;
-        $data['get_field_id'] = $get_field_id;
-        $data['get_habit_id'] = $get_habit_id;
         $data['get_hid'] = $get_hid;
         
         $data['dotiLogs'] = $dotiLogs;

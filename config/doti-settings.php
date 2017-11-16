@@ -13,5 +13,7 @@ return [
     
     'single-habit-tracking' => true,
     'admin-adds-global-fields-to-all-users' => true,
+    'lunch-start' => '12:00:00',
+    'lunch-end' => '12:30:00',
 
 ];

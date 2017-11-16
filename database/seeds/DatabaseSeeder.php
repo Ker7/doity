@@ -11,13 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('FieldsSeeder');
+        //$this->call('FieldsSeeder');
         $this->call('UsersSeeder');
-        $this->call('UserFieldSeeder');
-        $this->call('UserFieldHabitDLSeeder');
-        $this->call('FieldsHabitSeeder');
-        $this->call('HabitsSeeder');
-        $this->call('TagsSeeder');
-        $this->call('HabitTagsSeeder');
+        //$this->call('UserFieldSeeder');
+        //$this->call('UserFieldHabitDLSeeder');
+        //$this->call('FieldsHabitSeeder');
+        //$this->call('HabitsSeeder');
+        //$this->call('TagsSeeder');
+        //$this->call('HabitTagsSeeder');
     }
 }

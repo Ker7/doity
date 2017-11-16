@@ -9,6 +9,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ Auth::user()->name }}, This is the tracking page.
+
+                    {{ Form::open(['url' => 'sync', 'method' => 'PATCH']) }}
+                        {{ Form::hidden('uid', Auth::user()->id) }}
+                        {{ method_field('PATCH') }}
+                        {{ Form::submit('Sync up') }}
+                    {{ Form::close() }}
+                    
                 </div>
                     
                 <div class="panel-body">

@@ -24,7 +24,7 @@
                             @if ($is_admin)
                             <sup>If by person, the first submit person name</sup>
                                 <select class="reflect-date" name="uid" id="uid">
-                                    @if (empty($get_uid))
+                                    @if (empty($get_user_id))
                                         <option value="">-user-</option>
                                     @else
                                         <option value="">-show all-</option>
@@ -79,17 +79,23 @@
                         @foreach ($dls as $dlog)
                             <div class="row">
                                 <div class="col-sm-4">
-                                    {{ $dlog->created_at }}@if ($is_admin)
+                                    {{ $dlog->date_log }} {{ \Carbon\Carbon::parse($dlog->time_log)->format('H:i') }} - {{ \Carbon\Carbon::parse($dlog->time_log2)->format('H:i') }}@if ($is_admin)
                                     <div class="form-ip-dotilog">{{ $dlog->ip_address }} - {{ $dlog->ip_address2 }}</div>
                                          @endif
                                 </div>
                                 <div class="col-sm-4">
+                                  <span
+                                  @if ($dlog->is_counting == 1)
+                                    style="background-color: lightblue;"
+                                  @endif
+                                  >
                                     @if ($is_admin)
-                                        {{ $dlog->getFieldHabit->getUserField->getUser->name }}
-                                        {{-- $dlog->getFieldHabit->getUserField->id }}:
-                                        {{ $dlog->getFieldHabit->getHabit->id --}}
+                                        @if (empty($get_user_id))
+                                            {{ $dlog->getFieldHabit->getUserField->getUser->name }}
+                                        @endif
                                     @endif
                                     {{ $dlog->getFieldHabit->getHabit->name }}
+                                  </span>
                                 </div>
                                 <div class="col-sm-4">
                                     <div style="display: inline-block;" class="decimal-fields">{{ $dlog->value_decimal }} </div><sup style="display: inline-block;"> {{ $dlog->getFieldHabit->unit_name }}</sup>
@@ -116,8 +122,6 @@
                                                     {{-- @var $field from HomeController --}}
                                                     {!! Form::model($dlog, ['method' => 'PATCH', 'route' => ['logs.update', $dlog->id]]) !!}
                                                     {!! Form::hidden('uid', $get_user_id) !!}
-                                                    {!! Form::hidden('form_reflect_field', $get_field_id) !!}
-                                                    {!! Form::hidden('form_reflect_habits', $get_habit_id) !!}
                                                     {!! Form::hidden('dtf', $date_later_than) !!}
                                                     {!! Form::hidden('dtt', $date_less_than) !!}
 

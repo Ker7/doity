@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\FHabit;
 use App\Dotilog;
 use Illuminate\Http\Request;
 
@@ -73,17 +75,6 @@ class DotilogsController extends Controller
      */
     public function update(Request $request, $val)//Dotilog $dotilog)
     {
-        echo "DotilogsController.php@update";
-        //print_r($request->input());
-        //return ;
-        //$request->input('date_log')
-        //$request->input('time_log')
-        //$request->input('date_log2')
-        //$request->input('time_log2')
-        //$request->input('is_counting')
-        //$request->input('user_id')
-        //$request->input('')
-        
         $log = Dotilog::where('id', $val)->first();
         
         $log->date_log = $request->input('date_log');
@@ -92,15 +83,12 @@ class DotilogsController extends Controller
         $log->time_log2 = $request->input('time_log2');
         $log->is_counting = $request->input('is_counting');
         
-        $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
-        $log->value_decimal = ( (null !== $request->input('value_decimal')) ? $request->input('value_decimal') : $hours );
-        //echo (null !== $request->input('value_decimal') ? 'decimal_set' : 'nok');
-        
-        
+        if ($request->input('is_counting') == 0) {
+            //$log->is_counting = 0;
+            $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
+            $log->value_decimal = ( (null !== $request->input('value_decimal')) ? $request->input('value_decimal') : $hours );
+        }
         $log->save();
-        //print_r($log);
-        //echo 'Dotilog@update, id:'.$dotilog->id;
-        
         return redirect()->action('HomeController@reflect', [
                     'uid' => $request->input('uid'),
                     'dtf' => $request->input('dtf'),
@@ -127,7 +115,7 @@ class DotilogsController extends Controller
                 }
             }
         }
-        
+
         $log = new Dotilog;
 
         $log->fieldhabit_id = $request->input('form-track-habits');
@@ -138,51 +126,32 @@ class DotilogsController extends Controller
         $log->save();
         
         return redirect()->action('TrackController@index');
-        //return;
     }
     
     /**
      * Finish tracking a log record.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Dotilog  $dotilog
+     * @param  \App\Dotilog . id
      * @return \Illuminate\Http\Response
      */
-    public function finish(Request $request, $val)//Dotilog $dotilog)
+    public function finish(Request $request, $val)
     {
-        //$log = Dotilog::where('id', $val)->first();
-        //
-        //$log->date_log2 = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
-        //$log->time_log2 = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
-        //
-        //$secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
-        //$hours = $secondsPassedUntilNow/3600;
-        //
-        //$log->value_decimal = $hours;
-        //$log->is_counting = 0;
-        //$log->save();
-        
         $this->finishALog($request, $val);
-        
         return redirect()->action('TrackController@index');
     }
         /*
-         * @param FHabit id
+         * @param Dotilog id
          */
-    private function finishALog(Request $request, $val)//Dotilog $dotilog)
+    private function finishALog(Request $request, $val)
     {
         $log = Dotilog::where('id', $val)->first();
-
         $log->date_log2 = Carbon::now()->timezone('Europe/Tallinn')->format('Y-m-d');
         $log->time_log2 = Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i') . ':' . Carbon::now()->format('s');
-        
-        //$secondsPassedUntilNow = Carbon::parse($log->date_log2 . $log->time_log2)->diffInSeconds(Carbon::parse($log->date_log . $log->time_log));
-        //$hours = $secondsPassedUntilNow/3600;
-        
+
         $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
-        
+//break;
         $log->value_decimal = $hours ;
-        
         $log->is_counting = 0;
         $log->ip_address2 = $request->input('ip_address');
         
@@ -207,11 +176,34 @@ class DotilogsController extends Controller
      */
     private function calculateHoursDifference($datetimeFrom, $datetimeTo) {
         
-        $d_from = $datetimeFrom;
-        $d_to = $datetimeTo;
+        $d_from = Carbon::parse($datetimeFrom);
+        $d_to = Carbon::parse($datetimeTo);
         
-        $hours = Carbon::parse($d_from)->diffInSeconds(Carbon::parse($d_to))/3600;
+        $lunch_start = Carbon::parse(config('doti-settings.lunch-start'));
+        $lunch_end = Carbon::parse(config('doti-settings.lunch-end'));
         
+        $minusHours = 0;
+        
+        echo $lunch_start;
+
+        if (\Config::has('doti-settings.lunch-start') && \Config::has('doti-settings.lunch-end')) {
+            if ($d_from->lt($lunch_start)) {    //Start before lunch
+                if ($d_to->gte($lunch_start) && $d_to->lte($lunch_end)) {   //Ends at lunch, end goes to start of the lunch
+                    $d_to = Carbon::parse(substr($d_to, 0, 10) . config('doti-settings.lunch-start'));
+                }
+                if ($d_to->gt($lunch_end)) {  //Ends after lunch, minus lunch!
+                    $minusHours = 0.5;
+                }
+            }
+            
+            if ($d_from->gte($lunch_start) && $d_from->lte($lunch_end)) {   // Start during lunch, start goes to lunch end
+                $d_from = Carbon::parse(substr($d_from, 0, 10) . config('doti-settings.lunch-end'));
+                if ($d_to->gte($lunch_start) && $d_to->lte($lunch_end)) {   //Ends at lunch, end goes to start of the lunch
+                    $minusHours = 9999999999;
+                }
+            }
+        }
+        $hours = max( ($d_from->diffInSeconds($d_to)/3600) - $minusHours, 0);
         return $hours;
     }
 }
