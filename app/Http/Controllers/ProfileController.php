@@ -35,7 +35,7 @@ class ProfileController extends Controller
             //Auth::user()->setName(Input::get('name'));
             $u = User::findOrFail(Auth::user()->id);
             //print_r($u);
-            $u->setName(Input::get('name'));
+            //$u->setName(Input::get('name'));
             
             //return redirect()->action('HomeController@index');
             return redirect()->action('ProfileController@index');
@@ -52,6 +52,7 @@ class ProfileController extends Controller
         $actionName = $route->getActionName();
         echo "".$name."@".$actionName;
     }
+    
     private function displayGet(){
         echo "<pre>";
         print_r (Input::get());

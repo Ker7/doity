@@ -9,7 +9,7 @@ class Dotilog extends Model
     protected $table = 'dotilogs';
     
     protected $fillable = [
-        'date_log', 'time_log',
+        'date_log', 'time_log', 'date_log2', 'time_log2',
     ];
         
     public function getFieldHabit()

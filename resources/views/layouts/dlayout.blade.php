@@ -69,30 +69,40 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                    <li><a href="{{ url('/track') }}">Track</a></li>
-                    <li><a href="{{ url('/reflect') }}">Reflect</a></li>
+                    @if ( ! empty($is_admin) )
+                        <li><a href="{{ url('/home') }}">Pealeht</a></li>
+                    @endif
+                    <li><a href="{{ url('/track') }}">Jälgimine</a></li>
+                    @if ( ! empty($is_mode) )
+                    <li><a href="{{ url('/reflect') }}">Rida-Vaade</a></li>
+                    @endif
+                    <li><a href="{{ url('/calendar') }}">Kalender</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li><a href="{{ url('/login') }}">Sisselogimine</a></li>
+                        <li><a href="{{ url('/register') }}">Registreerimine</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                @if ( ! empty($is_admin) )
+                                    Admin: 
+                                @elseif  ( ! empty($is_mode) )
+                                    Moderaator:
+                                @endif
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-cog"></i>Profile</a></li>
+                                <li><a href="{{ url('/profile') }}"><i class="fa fa-btn fa-cog"></i>Profiil</a></li>
                                 <li>
                                     <a href="{{ url('/logout') }}"
                                         onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
-                                        <i class="fa fa-btn fa-sign-out"></i>Logout
+                                        <i class="fa fa-btn fa-sign-out"></i>Logi välja
                                     </a>
 
                                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

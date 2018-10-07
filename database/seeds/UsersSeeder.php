@@ -15,41 +15,25 @@ class UsersSeeder extends Seeder
     {
         DB::table('users')->delete();
         
-        $users = array(
-            array(
-                'id' => 1,
-                'name' => 'JohSenna',
-                'email' => 'js@mail.com',
-                'password' => Hash::make('asd'),
-                'privilege' => 1,
-                'created_at' => Carbon::now()
-                ),
-            array(
-                'id' => 2,
-                'name' => 'Kert',
-                'email' => 'kert@mail.com',
-                'password' => Hash::make('asd'),
-                'privilege' => 10,
-                'created_at' => Carbon::now()
-                ),
-            array(
-                'id' => 3,
-                'name' => 'Andrus',
-                'email' => 'andrus@mail.com',
-                'password' => Hash::make('asd'),
-                'privilege' => 1,
-                'created_at' => Carbon::now()
-                ),
-            array(
-                'id' => 4,
-                'name' => 'Baltic Steelarc Worker',
-                'email' => 'bsa@mail.com',
-                'password' => Hash::make('asd'),
-                'privilege' => 5,
-                'created_at' => Carbon::now()
-                )
-            );
+        $nimed = ['Ain Prants', 'Aivar Filing', 'Allar Aalde', 'Anneli Uibopuu', 'Deniss Štepa', 'Enar Kolats', 'Erki Kärgenberg', 'Igor Tretyak', 'Ivar Veelma', 'Kalju Tavel', 'Kalle Hellamaa', 'Lembit Pähn', 'Maido Uibopuu', 'Meigo Mõttus', 'Rauno Uibopuu', 'Rene Kilter', 'Renee Miitel', 'Siim Hirse', 'Tarmo Kahk', 'Väino Pähn', 'Ville Värton', 'Voldemar Talv', 'Vjatseslav Andritski', 'Vesa Viitanen'];
+        $emailid = ['ain.prants@balticsteelarc.ee', 'aivar.filing@balticsteelarc.ee', 'allar.aalde@balticsteelarc.ee', 'anneli.uibopuu@balticsteelarc.ee', 'deniss.štepa@balticsteelarc.ee', 'enar.kolats@balticsteelarc.ee', 'erki.kärgenberg@balticsteelarc.ee', 'igor.tretyak@balticsteelarc.ee', 'ivar.veelma@balticsteelarc.ee', 'kalju.tavel@balticsteelarc.ee', 'kalle.hellamaa@balticsteelarc.ee', 'lembit.pähn@balticsteelarc.ee', 'maido.uibopuu@balticsteelarc.ee', 'meigo.mõttus@balticsteelarc.ee', 'rauno.uibopuu@balticsteelarc.ee', 'rene.kilter@balticsteelarc.ee', 'renee.miitel@balticsteelarc.ee', 'siim.hirse@balticsteelarc.ee', 'tarmo.kahk@balticsteelarc.ee', 'väino.pähn@balticsteelarc.ee', 'ville.värton@balticsteelarc.ee', 'voldemar.talv@balticsteelarc.ee', 'vjatseslav.andritski@balticsteelarc.ee', 'vesa.viitanen@balticsteelarc.ee'];
+        $privileegid = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8];
+        $paroolid = // REM PAROOLI ARRAY
+        $sisse = array();
         
-        DB::table('users')->insert($users);
+        foreach ($nimed as $k => $nimi) {
+            $sisse[] = ['name' => $nimed[$k],
+                        'email' => $emailid[$k],
+                        'privilege' => $privileegid[$k],
+                        'password' => Hash::make($paroolid[$k])
+                        ]; 
+        }
+        $sisse[] = ['name' => 'Kert',
+            'email' => 'kert.mottus@gmail.com',
+            'privilege' => 10,
+            'password' => Hash::make('asd')
+            ]; 
+        
+        DB::table('users')->insert($sisse);
     }
 }

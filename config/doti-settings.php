@@ -15,5 +15,7 @@ return [
     'admin-adds-global-fields-to-all-users' => true,
     'lunch-start' => '12:00:00',
     'lunch-end' => '12:30:00',
-
+    'nopw-create-user-password' => 'depric-password-for-account-creation',
+    'job-forwarding' => true,
+    'job-forwarding-habit-id' => 1,
 ];

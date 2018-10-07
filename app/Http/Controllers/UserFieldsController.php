@@ -39,9 +39,9 @@ class UserFieldsController extends Controller
         } else {
             $habits = FHabit::where('userfield_id', $uf)->where('internal', 0)->where('active', 1)->get();
         }
-        foreach ($habits as $habit) {
-            $habit->getHabit->name;
-        }
+        //foreach ($habits as $habit) {
+        //    $habit->getHabit->name;
+        //}
         $data = [
             "habits" => $habits
         ];

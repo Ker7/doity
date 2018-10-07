@@ -93,6 +93,7 @@ class TrackController extends Controller
         // get User
         $user = User::where('id', Auth::id())->first();
         $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
+        $is_mode = ( User::where('id', Auth::id())->first()->privilege >= 5 );
         // get User Fields
         $uf = UserField::where('user_id', Auth::id())->get();
         
@@ -119,7 +120,10 @@ class TrackController extends Controller
                   'userFields' => $uf,
                   'nowDate' => Carbon::now()->timezone('Europe/Tallinn')->format('m/d/Y'),
                   'nowTime' => Carbon::now()->timezone('Europe/Tallinn')->hour . ':' . Carbon::now()->format('i'),
-                  'openLogs' => $openLogs ];
+                  'openLogs' => $openLogs];
+        
+        $data['is_admin'] = $is_admin;
+        $data['is_mode'] = $is_mode;
 
         return view('track-timer', $data);
     }

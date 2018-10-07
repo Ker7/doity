@@ -8,14 +8,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ Auth::user()->name }}, This is the tracking page.
-
-                    {{ Form::open(['url' => 'sync', 'method' => 'PATCH']) }}
-                        {{ Form::hidden('uid', Auth::user()->id) }}
-                        {{ method_field('PATCH') }}
-                        {{ Form::submit('Sync up') }}
-                    {{ Form::close() }}
-                    
+                    {{ Auth::user()->name }}, This is the tracking page.                    
                 </div>
                     
                 <div class="panel-body">

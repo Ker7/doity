@@ -11,12 +11,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //LIVE DATA SEEDS
+        //$this->call('FieldsSeeder');
+        //$this->call('UsersSeeder');
+        // + habitid ehk projektid ja nende seosed!
+        
+        // TEST DATA SEEDs !!!
+        
         //$this->call('FieldsSeeder');
         $this->call('UsersSeeder');
         //$this->call('UserFieldSeeder');
-        //$this->call('UserFieldHabitDLSeeder');
-        //$this->call('FieldsHabitSeeder');
+        //$this->call('UserFieldHabitDLSeeder2');
+        //$this->call('FieldsHabitSeeder2');
         //$this->call('HabitsSeeder');
+        //$this->call('BankDaysSeeder');
+        
+        
+        
+        
         //$this->call('TagsSeeder');
         //$this->call('HabitTagsSeeder');
     }

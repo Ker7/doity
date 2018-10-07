@@ -24,24 +24,56 @@ class UserFieldSeeder extends Seeder
         
         $i = 1;  // index for table id column
         
-        foreach (range(1,3) as $user_id){
-            foreach (range(1,7) as $field_id){
-                DB::table('field_user')->insert([
-                    'id' => $i,
-                    'user_id' => $user_id,
-                    'field_id' => $field_id,
-                    'active' => 1,
-                    'clicked' => 1,
-                    'public' => 1,
-                    'created_at' => Carbon::now()
-                ]);
-                $i++;
-            }
-        }
+        //foreach (range(1,3) as $user_id){
+        //    foreach (range(1,7) as $field_id){
+        //        DB::table('field_user')->insert([
+        //            'id' => $i,
+        //            'user_id' => $user_id,
+        //            'field_id' => $field_id,
+        //            'active' => 1,
+        //            'clicked' => 1,
+        //            'public' => 1,
+        //            'created_at' => Carbon::now()
+        //        ]);
+        //        $i++;
+        //    }
+        //}
         DB::table('field_user')->insert([
-            'id' => 22,     // last one ended at 21 !! @todo a function than would add a new habit [work project] to all the user fields (or selectively) by admin.
+            //'id' => 22,     // last one ended at 21 !! @todo a function than would add a new habit [work project] to all the user fields (or selectively) by admin.
+            'user_id' => 25,
+            'field_id' => 1,
+            'active' => 1,
+            'clicked' => 1,
+            'public' => 1,
+            'created_at' => Carbon::now()
+        ]);
+        //DB::table('field_user')->insert([ Habiteid on 4 vaja
+        //    'user_id' => 25,
+        //    'field_id' => 1,
+        //    'active' => 1,
+        //    'clicked' => 1,
+        //    'public' => 1,
+        //    'created_at' => Carbon::now()
+        //]);
+        //DB::table('field_user')->insert([
+        //    'user_id' => 25,
+        //    'field_id' => 3,
+        //    'active' => 1,
+        //    'clicked' => 1,
+        //    'public' => 1,
+        //    'created_at' => Carbon::now()
+        //]);
+        //DB::table('field_user')->insert([
+        //    'user_id' => 25,
+        //    'field_id' => 4,
+        //    'active' => 1,
+        //    'clicked' => 1,
+        //    'public' => 1,
+        //    'created_at' => Carbon::now()
+        //]);
+        DB::table('field_user')->insert([
             'user_id' => 4,
-            'field_id' => 8,
+            'field_id' => 1,
             'active' => 1,
             'clicked' => 1,
             'public' => 1,

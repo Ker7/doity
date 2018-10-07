@@ -40,7 +40,63 @@ class DotilogsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $log = new Dotilog;
+        
+        $log->fieldhabit_id = $request->input('uhid');
+        $log->date_log = $request->input('date_log');
+        $log->time_log = $request->input('time_log');
+        $log->date_log2 = $request->input('date_log');
+        $log->time_log2 = $request->input('time_log2');
+        $log->is_counting = 0;
+        $log->comment = 'MANUAL';
+        
+        $hours = $this->calculateHoursDifference($log->date_log . $log->time_log, $log->date_log2 . $log->time_log2);
+        $log->value_decimal = ( (null !== $request->input('value_decimal')) ? $request->input('value_decimal') : $hours );
+            
+        $log->save();
+        return redirect()->action('HomeController@reflect', [
+                    'a' => 0,
+                    'uid' => $request->input('uid'),
+                    'dtf' => $request->input('dtf'),
+                    'dtt' => $request->input('dtt'),
+                    'form_reflect_field' => $request->input('form_reflect_field'),
+                    'form_reflect_habits' => $request->input('form_reflect_habits'),
+                    ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function forward(Request $request)
+    {
+        
+        $log = new Dotilog;
+        
+        $log->fieldhabit_id = $request->input('fhid');
+        $log->date_log = $request->input('fhdt');
+        $log->time_log = '03:00:00';
+        
+        $log->value_decimal = $request->input('value_decimal');
+        
+        $log->is_counting = 0;
+        $log->comment = $request->input('comment');
+
+        if ($log->save()) {
+            $msg='Pangatunnid edukalt üle kantud!';
+            $art='alert-success';
+        }else {
+            $msg='Tundide ülekandmisel tekkis viga.';
+            $art='alert-warning';
+        }
+        
+        return redirect()->action('HomeController@calendar', [
+                    'a' => 0,
+                    'uid' => $request->input('uid'),
+                    'dtf' => $request->input('dtf'),
+                    ])->with('message', $msg)->with('alert-class', $art);
     }
 
     /**
@@ -62,8 +118,9 @@ class DotilogsController extends Controller
      */
     public function edit(Dotilog $dotilog, $id)
     {
-        echo 'Dotilog@edit, id:'.$id;
-        return redirect()->action('HomeController@reflect');
+        echo "Edit@DotilogsController.php";
+        //echo 'Dotilog@edit, id:'.$id;
+        //return redirect()->action('HomeController@reflect');
     }
 
     /**
@@ -76,6 +133,11 @@ class DotilogsController extends Controller
     public function update(Request $request, $val)//Dotilog $dotilog)
     {
         $log = Dotilog::where('id', $val)->first();
+        if ($request->input('uhid') !== null) {
+            $log->fieldhabit_id = $request->input('uhid');
+        }
+        
+        // Before and after change log down the change!
         
         $log->date_log = $request->input('date_log');
         $log->time_log = $request->input('time_log');
@@ -90,6 +152,7 @@ class DotilogsController extends Controller
         }
         $log->save();
         return redirect()->action('HomeController@reflect', [
+                    'a' => 0,
                     'uid' => $request->input('uid'),
                     'dtf' => $request->input('dtf'),
                     'dtt' => $request->input('dtt'),
@@ -165,9 +228,21 @@ class DotilogsController extends Controller
      * @param  \App\Dotilog  $dotilog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dotilog $dotilog)
+    public function destroy(Request $request, $id)
     {
         //
+        //echo "Search and Destroy! : " . $id;
+        $log = Dotilog::where('id', $id)->first();
+        $log->delete();
+        
+        //return redirect()->action('HomeController@reflect');
+        return redirect()->action('HomeController@reflect', [
+                'a' => 0,
+                'uid' => $request->input('uid'),
+                'dtf' => $request->input('dtf'),
+                'dtt' => $request->input('dtt'),
+                'hid' => $request->input('hid'),
+                ]);
     }
     
     /* Calculates the time difference.
@@ -179,14 +254,12 @@ class DotilogsController extends Controller
         $d_from = Carbon::parse($datetimeFrom);
         $d_to = Carbon::parse($datetimeTo);
         
-        $lunch_start = Carbon::parse(config('doti-settings.lunch-start'));
-        $lunch_end = Carbon::parse(config('doti-settings.lunch-end'));
-        
         $minusHours = 0;
-        
-        echo $lunch_start;
 
         if (\Config::has('doti-settings.lunch-start') && \Config::has('doti-settings.lunch-end')) {
+            $lunch_start = Carbon::parse($d_from->format('Y-m-d ') . config('doti-settings.lunch-start'));
+            $lunch_end = Carbon::parse($d_from->format('Y-m-d ') . config('doti-settings.lunch-end'));
+            
             if ($d_from->lt($lunch_start)) {    //Start before lunch
                 if ($d_to->gte($lunch_start) && $d_to->lte($lunch_end)) {   //Ends at lunch, end goes to start of the lunch
                     $d_to = Carbon::parse(substr($d_to, 0, 10) . config('doti-settings.lunch-start'));

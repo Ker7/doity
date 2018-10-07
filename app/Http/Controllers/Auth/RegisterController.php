@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+//use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Traits\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -62,11 +63,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'privilege' => 1,
-        ]);
+        //dd($data);
+        
+        //if (\Config::has('doti-settings.create-user-password')) {
+        //    if ($data['incode'] == \Config::has('doti-settings.create-user-password')) {
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                    'privilege' => 1,
+                ]);
+        //    }
+        //}
     }
 }

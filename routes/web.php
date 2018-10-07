@@ -24,6 +24,7 @@ Route::get  ('/track', 'TrackController@index')->name('track');
 Route::post ('/track', 'TrackController@post')->name('track');
 
 Route::get  ('/reflect', 'HomeController@reflect')->name('reflect');
+//Route::get  ('/reflect/{csv}', 'HomeController@reflect')->name('reflect');
 
 Route::put('/profile', [ 'as' => 'profile.update', 'uses' => 'ProfileController@updateProfile'] );
 Route::get('/profile', 'ProfileController@index');
@@ -46,10 +47,16 @@ Route::get('/fieldhabit', 'FHabitController@edit');
 Route::get('/test', 'testController@index');
 
 // New approach!
+Route::resource('bankdays', 'BankdaysController');
+
 Route::resource('field', 'FieldController');
 Route::resource('userfield', 'UserFieldsController');
 Route::put('logs/start', 'DotilogsController@start' )->name('logs.start');
+Route::put('logs/store/{id}', 'DotilogsController@store' )->name('logs.store');
+Route::put('logs/forward', 'DotilogsController@forward' )->name('logs.forward');
+Route::patch('logs/destroy/{id}', 'DotilogsController@destroy' )->name('remlog');
 Route::patch('logs/finish/{id}', 'DotilogsController@finish' )->name('logs.finish');
+
 Route::resource('logs', 'DotilogsController');
 //Route::resource('logs', 'DotilogsController', ['parameters' => [
 //    'index' => 'filter'
@@ -57,5 +64,8 @@ Route::resource('logs', 'DotilogsController');
 
 
 Route::patch('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
+Route::get('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
+
+Route::get('calendar', 'HomeController@calendar' )->name('calendar'); // Syncronizing new users
 
 Route::patch('/home', 'HomeController@postIndex' );

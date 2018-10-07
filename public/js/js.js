@@ -186,7 +186,10 @@ $(document).ready(function() {
             
             //sum += Number($(this).val());
         });
-        $( ".decimal-sum" ).text(sum);
+        
+        var roundsum = +((sum).toFixed(2));
+        
+        $( ".decimal-sum" ).text(roundsum);
     //console.log(sum)
         
    }

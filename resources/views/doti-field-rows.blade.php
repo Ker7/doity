@@ -46,7 +46,7 @@
             <td>{{ Carbon\Carbon::parse($userField->updated_at)->format('jS F') }} :: </td>
                 
             <td>
-                <button type="button" title="New habit!" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i></button>
+                <button type="button" title="New habit!" class="btn btn-success btn-sm" data-toggle="modal" data-target="#habitAddModal-{{$userField->id}}"><i class="fa fa-btn fa-clone"></i>Lisa projekt</button>
                 
                 <!-- Modal -->
                 <div id="habitAddModal-{{$userField->id}}" class="modal fade" role="dialog">
@@ -54,7 +54,7 @@
                     <div class="modal-content">
                 
                       <div class="modal-header">
-                        <h3>Add a Habit for {{ $userField->getField->name }}</h3>
+                        <h3>Lisa projekt {{ $userField->getField->name }}' jaoks</h3>
                       </div>
                         
                       <div class="modal-body">
@@ -62,6 +62,7 @@
                         {{ Form::open(['url' => 'fieldhabit', 'method' => 'post']) }}
                         {{ Form::hidden('form_name', 'fieldhabit_add') }}
                         {{ Form::hidden('field_id', $userField->id) }}
+                        {{ Form::hidden('unit_name', $userField->id) }}
                         {{-- Form::model('', '') --}}
                         {{-- method_field('PATCH') --}}
                 
@@ -70,27 +71,33 @@
 
                 
                         <div class="form-group">
-                          {!! Form::label('name', 'Name of Habit') !!}
+                          {!! Form::label('name', 'Projekti nimi') !!}
                           {!! Form::text('name', '', ['class' => 'form-control']) !!}
                         </div>
                             
-                        <div class="form-group">
+                        {{--  <!--div class="form-group">
                           {!! Form::label('name', 'Name of Unit to measure with(eg. Walks, laps, interviews)') !!}
-                          {!! Form::text('unit_name', '', ['class' => 'form-control']) !!}
-                        </div>
+                          {!! Form::text('unit_name', 'h', ['class' => 'form-control']) !!}
+                        </div-->  --}}
+                            
                         <div class="form-group">
+                          {!! Form::label('add_to_all', 'Kas lisada kõikidele kasutajatele?') !!}
+                          {!! Form::checkbox('add_to_all', true, ['class' => 'form-control', 'style' => 'margin-left: 10px;']) !!}
+                        </div>
+                            
+                        {{--  <!--div class="form-group">
                           {!! Form::label('name', '[NOT USED ATM]Type of Unit(Decimal, Time, Percentage)') !!}
                           {!! Form::text('unit_type', '', ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
                           {!! Form::label('name', 'Comment for this habit.') !!}
                           {!! Form::textarea('comment', '', ['class' => 'form-control']) !!}
-                        </div>
+                        </div--> --}}
                             
                       </div>
                             
                       <div class="modal-footer">
-                        <button id="addHabit" class="btn btn-success" type="submit">Add!</button>
+                        <button id="addHabit" class="btn btn-success" type="submit">Lisa!</button>
                 {{ Form::close() }}
                       </div>
                       

@@ -8,13 +8,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ Auth::user()->name }}, This is the Timer-Tracking page
-                    
-                    {{ Form::open(['url' => 'sync', 'method' => 'PATCH']) }}
-                        {{ Form::hidden('uid', Auth::user()->id) }}
-                        {{ method_field('PATCH') }}
-                        {{ Form::submit('Sync up') }}
-                    {{ Form::close() }}
+                    {{ Auth::user()->name }}, this is the Timer-Tracking page
                 </div>
                     
                 <div class="panel-body">
@@ -25,10 +19,10 @@
                         <div class="col-sm-4"><h3></h3></div>
                     </div>
                 
-                    {{-- Form::open() --}}
-                    {!! Form::model($newLog, ['method' => 'PUT', 'route' => ['logs.start', '123']]) !!}
                     <div class="row">
                         <div class="col-sm-4">
+                        {{-- Form::open() --}}
+                        {!! Form::model($newLog, ['method' => 'PUT', 'route' => ['logs.start', '123']]) !!}
                         
                             @php
                                 //print_r($userFields);
@@ -60,50 +54,44 @@
                         </div>
                         <div class="col-sm-4">{{ Form::submit('Start Work', ['class' => 'btn btn-sm btn-success']) }}</div>
                         <div class="col-sm-4"></div>
+                        {!! Form::close() !!}
                     </div>
 
                     <br />
                     
-                    <div class="row">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4"></div>
-                    </div> 
-                    
-                    {{-- Form::close() --}}
-                    {!! Form::close() !!}
-                    
-                            
+                    <!--<div class="row">-->
                         @php
-                            echo 'countOpenLogs: '.count($openLogs);
+                            //echo 'countOpenLogs: '.count($openLogs);
                         @endphp
-                    <div id="habits-block" style="display: inline-block;width:100%" class="row">
-                        
-                        @foreach ($openLogs as $u)
-                          @foreach ($u as $a)
-                                
-                           <div class="row">
-                            <div class="col-sm-4">
-                                <p>{{ $a->date_log }} - {{ $a->time_log }}</p>
-                            </div>
-                                
-                            <div class="col-sm-4">
-                                <h5>Activity: <strong>{{ $a->getFieldHabit->getHabit->name }}</strong></h5>
-                            </div>
+                        <div id="habits-block" style="display: inline-block;width:100%;     margin-left: 0px;" class="row">
                             
-                            <div class="col-sm-4">
-                                {!! Form::model($a, ['method' => 'PATCH', 'route' => ['logs.finish', $a->id]]) !!}
-                                <input type="hidden" name="ip_address" value="@php
-                                    echo $_SERVER['REMOTE_ADDR']
-                                @endphp" />
-                                    <button class="btn btn-success" type="submit">Finish WORK</button>
-                                {!! Form::close() !!}
-                            </div>
-                           </div>
-                          @endforeach
-                        @endforeach
-                        
-                    </div>
+                            @foreach ($openLogs as $u)
+                              @foreach ($u as $a)
+                                    
+                               <div class="row">
+                                <div class="col-sm-4">
+                                    <p>{{ $a->date_log }} - {{ $a->time_log }}</p>
+                                </div>
+                                    
+                                <div class="col-sm-4">
+                                    <h5>Activity: <strong>{{ $a->getFieldHabit->getHabit->name }}</strong></h5>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                    {!! Form::model($a, ['method' => 'PATCH', 'route' => ['logs.finish', $a->id]]) !!}
+                                    <input type="hidden" name="ip_address" value="@php
+                                        echo $_SERVER['REMOTE_ADDR']
+                                    @endphp" />
+                                        <button class="btn btn-success" type="submit">Finish WORK</button>
+                                    {!! Form::close() !!}
+                                </div>
+                               </div>
+                              @endforeach
+                            @endforeach
+                            
+                        </div>
+                            
+                    <!--</div> -->
                     
                 </div>
                 
