@@ -18,12 +18,12 @@ class DatabaseSeeder extends Seeder
         
         // TEST DATA SEEDs !!!
         
-        //$this->call('FieldsSeeder');
         $this->call('UsersSeeder');
-        //$this->call('UserFieldSeeder');
+        $this->call('FieldsSeeder');
+        $this->call('UserFieldSeeder');
+        $this->call('HabitsSeeder');
         //$this->call('UserFieldHabitDLSeeder2');
         //$this->call('FieldsHabitSeeder2');
-        //$this->call('HabitsSeeder');
         //$this->call('BankDaysSeeder');
         
         

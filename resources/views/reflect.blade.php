@@ -15,7 +15,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ Auth::user()->name }}, This is the looking back page.
+                    {{ Auth::user()->name }}, This is the most robust way of Reclection
                     @if ($is_admin)
                         For CSV-friendly page: <a target="_self" href="{{ action('HomeController@reflect', ['csv' => 1]) }}"> here</a>.
                     @endif
@@ -37,7 +37,7 @@
                         </div>
                             
                         <div class="col-sm-4"><h3></h3>
-                            @if ($is_admin)
+                            @if (isset($is_asdmin))
                                 <select class="reflect-date" name="uid" id="uid">
                                     @if (empty($get_user_id))
                                         <option value="">-kasutaja-</option>
@@ -55,6 +55,8 @@
                                         </option>
                                     @endforeach
                                 </select>
+                            @endif
+                            
                                 <select class="reflect-date" name="hid" id="hid">
                                 @if (empty($get_hid))
                                     <option value="">-projekt-</option>
@@ -72,7 +74,6 @@
                                 @endforeach
                                 </select>
                             
-                            @endif
                             {{ Form::submit('Kuva vastavaid') }}
                         </div>
                             

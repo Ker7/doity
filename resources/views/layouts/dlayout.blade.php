@@ -69,14 +69,14 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    @if ( ! empty($is_admin) )
-                        <li><a href="{{ url('/home') }}">Pealeht</a></li>
-                    @endif
-                    <li><a href="{{ url('/track') }}">Jälgimine</a></li>
-                    @if ( ! empty($is_mode) )
-                    <li><a href="{{ url('/reflect') }}">Rida-Vaade</a></li>
-                    @endif
-                    <li><a href="{{ url('/calendar') }}">Kalender</a></li>
+                    {{-- @if ( ! empty($is_admin) ) --}}
+                        <li><a href="{{ url('/home') }}">Overview</a></li>
+                    {{-- @endif --}}
+                    <li><a href="{{ url('/track') }}">Tracking</a></li>
+                    {{-- @if ( ! empty($is_mode) ) --}}
+                    <li><a href="{{ url('/reflect') }}">Reflection RAW</a></li>
+                    {{-- @endif --}}
+                    <li><a href="{{ url('/calendar') }}">Calendar</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

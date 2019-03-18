@@ -15,22 +15,21 @@ class FieldsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('fields')->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('fields')->truncate();
         
         $fields = array(
-            array('id' => 1,'name' => 'Tervis',             'color' => '#FF6384','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 2,'name' => 'Vaimsus',            'color' => '#4BC0C0','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 3,'name' => 'Finants',            'color' => '#9476AB','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 4,'name' => 'Sotsialiseerumine',  'color' => '#E7E9ED','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 5,'name' => 'Muusika',            'color' => '#36A2EB','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 6,'name' => 'Programmeerimine',   'color' => '#D4BA6A','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 7,'name' => 'Töö',                'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 8,'name' => 'Baltic Steelarc',    'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
-            array('id' => 9,'name' => 'Fotograafia',        'color' => '#420029','author_user' => 2,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now())
+            array('id' => 1,'name' => 'Tervis',             'color' => '#51BB49','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 2,'name' => 'Vaimsus',            'color' => '#BB49B0','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 3,'name' => 'Finants',            'color' => '#39E9B7','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 4,'name' => 'Sotsialiseerumine',  'color' => '#E9E239','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 5,'name' => 'Muusika',            'color' => '#FF0000','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 6,'name' => 'Programmeerimine',   'color' => '#6EABD9','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 7,'name' => 'Töö',                'color' => '#E19438','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now()),
+            array('id' => 8,'name' => 'Visuaalmeedia',      'color' => '#784CA8','author_user' => 1,'clicked' => 1, 'verified' => 1, 'created_at' => Carbon::now())
             );
         
-        //"#FF6384","#4BC0C0","#9476AB","#E7E9ED","#36A2EB","#D4BA6A","#420029","#E7E9ED"
-        
         DB::table('fields')->insert($fields);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
