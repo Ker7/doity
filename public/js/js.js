@@ -75,6 +75,8 @@ console.log( '2val::' + this.value );
     updateHabitTags(this.value);
 })
 
+
+
 $( "#fieldCircle" ).click(function(evt){
     var activePoints = myChart.getElementAtEvent(evt);
     
@@ -100,6 +102,7 @@ $( "#fieldCircle" ).click(function(evt){
             console.log('ajax-userfield-success');
             $('#habits-block').empty();
             $('#habits-block').html(adata);
+            //console.log('ajax-userfield-got:'.adata);
         }, function() {
             console.log('ajax-userfield-error');
         });
@@ -121,7 +124,36 @@ $( "#fieldCircle" ).click(function(evt){
 
 });
 
+function changeUnit(el) {
+    var ym = el.value;
+    console.log(el.value);
+    if (el.value == 1) {
+        $('#unit_name_field').parent().hide();
+    } else {
+        $('#unit_name_field').parent().show();
+    }
+}
+
 $(document).ready(function() {
+    
+    console.log('algaasss');
+    
+$('#unit_id_field').on('change', function() {
+    console.log( '2val::' + this.value );
+    console.log('wololooo');
+});
+
+$('#unit_id_field').change(function() {
+    console.log( '2val::' + this.value );
+    console.log('w2lolooo');
+});
+
+$('#unit_id_field').click(function() {
+    console.log( '2val::' + this.value );
+    console.log('w3lolooo');
+});
+
+
     
     $.ajaxSetup({
             cache: false,
@@ -193,4 +225,5 @@ $(document).ready(function() {
     //console.log(sum)
         
    }
+      
 });

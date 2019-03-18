@@ -61,15 +61,16 @@ class FHabitController extends Controller
         $newHabit->public = 0;
         $newHabit->save();
 
+        // 
         //echo config('doti-settings.admin-adds-global-fields-to-all-users') . '&' . $add_to_all;
-            // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
-        if (config('doti-settings.admin-adds-global-fields-to-all-users') && $add_to_all) {
-            foreach(UserField::where('field_id', UserField::where('id', $user_field)->get()[0]->field_id)->get() as $userfields ){
-                $this->addFieldHabit($userfields->id, $newHabit->id, $request->input('unit_name'), $request->input('comment'));
-            }
-        } else {
-            $this->addFieldHabit($user_field, $newHabit->id, $request->input('unit_name'), $request->input('comment'));
-        }
+        // Nüüd peaks ilmselt siin mingi test olema kas kõik oli edukas ja siis luuakse uus UserField selle saadud ID alusel
+        //if (config('doti-settings.admin-adds-global-fields-to-all-users') && $add_to_all) {
+        //    foreach(UserField::where('field_id', UserField::where('id', $user_field)->get()[0]->field_id)->get() as $userfields ){
+        //        $this->addFieldHabit($userfields->id, $newHabit->id, $request->input('unit_id'), $request->input('unit_name'), $request->input('comment'));
+        //    }
+        //} else {
+        $this->addFieldHabit($user_field, $newHabit->id, $request->input('unit_id'), $request->input('unit_name'), $request->input('comment'));
+        //}
         
         return redirect()->action('HomeController@index');
     }

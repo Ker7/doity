@@ -23,14 +23,14 @@
                     </tr>
                 </table>
                     
-                <h4>User synchronization</h4>
-                {{ Form::open(['url' => 'sync', 'method' => 'PATCH']) }}
+                <!--h4>User synchronization</h4>
+                {-- Form::open(['url' => 'sync', 'method' => 'PATCH']) }}
                     {{ Form::hidden('uid', Auth::user()->id) }}
                     {{ method_field('PATCH') }}
                     {{ Form::submit('Sync up') }}
-                {{ Form::close() }}
+                {{ Form::close() --}
                     
-                </div>
+                </div-->
             </div>
         </div>
     </div>

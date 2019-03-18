@@ -54,7 +54,7 @@
                     <div class="modal-content">
                 
                       <div class="modal-header">
-                        <h3>Lisa projekt {{ $userField->getField->name }}' jaoks</h3>
+                        <h3>Add an action for <strong>{{ $userField->getField->name }}</strong></h3>
                       </div>
                         
                       <div class="modal-body">
@@ -71,28 +71,29 @@
 
                 
                         <div class="form-group">
-                          {!! Form::label('name', 'Projekti nimi') !!}
+                          {!! Form::label('name', 'Action name') !!}
                           {!! Form::text('name', '', ['class' => 'form-control']) !!}
                         </div>
                             
-                        {{--  <!--div class="form-group">
-                          {!! Form::label('name', 'Name of Unit to measure with(eg. Walks, laps, interviews)') !!}
-                          {!! Form::text('unit_name', 'h', ['class' => 'form-control']) !!}
-                        </div-->  --}}
+                        <div class="form-group">
+                          {!! Form::label('name', 'How do you want to track/measure this activity (Decimal, Time or Percentage - unchangeable)') !!}
+                          {!! Form::select('unit_id', array(1 => 'Counting numbers', 2 => 'Time tracking', 3 => 'Percentage'), null, ['id' => 'unit_id_field', 'class' => 'form-control unit-id-field', 'onchange' => 'changeUnit(this)']) !!}
+                        </div>
+                            
+                        <div class="form-group">
+                          {!! Form::label('name', 'Name of Unit to measure with(eg. Walks, laps or interviews)') !!}
+                          {!! Form::text('unit_name', 'unit', null, ['id' => 'unit_name_field', 'class' => 'form-control unit-of-measure-field']) !!}
+                        </div>  
                             
                         <div class="form-group">
                           {!! Form::label('add_to_all', 'Kas lisada kõikidele kasutajatele?') !!}
                           {!! Form::checkbox('add_to_all', true, ['class' => 'form-control', 'style' => 'margin-left: 10px;']) !!}
                         </div>
                             
-                        {{--  <!--div class="form-group">
-                          {!! Form::label('name', '[NOT USED ATM]Type of Unit(Decimal, Time, Percentage)') !!}
-                          {!! Form::text('unit_type', '', ['class' => 'form-control']) !!}
-                        </div>
                         <div class="form-group">
                           {!! Form::label('name', 'Comment for this habit.') !!}
                           {!! Form::textarea('comment', '', ['class' => 'form-control']) !!}
-                        </div--> --}}
+                        </div> 
                             
                       </div>
                             

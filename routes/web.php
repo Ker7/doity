@@ -13,6 +13,9 @@
 //Route::get('/', function () {
 //    return view('home');
 //});
+
+//dd(App::environment());
+
 Route::get  ('/', 'HomeController@index')->name('home');
 
 Auth::routes();
@@ -63,8 +66,9 @@ Route::resource('logs', 'DotilogsController');
 //]]);
 
 
-Route::patch('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
-Route::get('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
+//OLD sync methro tobe removed
+//Route::patch('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
+//Route::get('sync', 'HomeController@sync' )->name('sync'); // Syncronizing new users
 
 Route::get('calendar', 'HomeController@calendar' )->name('calendar'); // Syncronizing new users
 

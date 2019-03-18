@@ -450,6 +450,9 @@ $bank_days_personal = BankDays::where('date', '>=', $last_month_day->format('Y-m
         return view('calendar', $data);
     }
     
+    /*
+     * Old Depricated funtion
+     *
     public function sync(){
         $is_admin = ( User::where('id', Auth::id())->first()->privilege >= 8 );
         if ($is_admin) {
@@ -513,6 +516,7 @@ $bank_days_personal = BankDays::where('date', '>=', $last_month_day->format('Y-m
         return $this->index();
         
     }
+    */
     
     public function getBankHours($uid) {
         //start time 

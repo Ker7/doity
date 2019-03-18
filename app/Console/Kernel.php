@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // @todo remove this or learn scheduled tasks | Schedule = cron job?
         //DB::table('dotilogs')->insert([
         //    'fieldhabit_id' => 2,
         //    
@@ -42,7 +43,6 @@ class Kernel extends ConsoleKernel
         //$file = 'storage/logs/scheduler_output'. Carbon::now()->format('_Y-m-d_') . Carbon::now()->format('H-i-s').'.log';
         //$schedule->command('command1')
         //         ->sendOutputTo($file);
-        
         //$schedule->call(function () {
         //    DB::table('users')->delete();
         //})->everyMinute();
